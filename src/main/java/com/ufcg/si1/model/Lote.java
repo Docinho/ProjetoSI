@@ -1,15 +1,36 @@
 package com.ufcg.si1.model;
 
-public class Lote {
+import java.io.Serializable;
 
-    private long id;
+import javax.annotation.Generated;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.ManyToAny;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+@Entity
+public class Lote implements Serializable{
+
+	@Transient
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue
+    private Long id;
+	@JsonBackReference
+	@OneToOne
+	@JoinColumn(name="Produto_id")
     private Produto produto;
     private int numeroDeItens;
     private String dataDeValidade;
 
-    public Lote() {
-        this.id = 0;
-    }
 
     public Lote(Produto produto, int numeroDeItens, String dataDeValidade) {
         super();
@@ -18,18 +39,18 @@ public class Lote {
         this.dataDeValidade = dataDeValidade;
     }
 
-    public Lote(long id, Produto produto, int numeroDeItens, String dataDeValidade) {
+    public Lote(Long id, Produto produto, int numeroDeItens, String dataDeValidade) {
         this.id = id;
         this.produto = produto;
         this.numeroDeItens = numeroDeItens;
         this.dataDeValidade = dataDeValidade;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -57,13 +78,13 @@ public class Lote {
         this.dataDeValidade = dataDeValidade;
     }
 
-    @Override
-    public String toString() {
-        return "Lote{" +
-                "id=" + id +
-                ", produto=" + produto.getId() +
-                ", numeroDeItens=" + numeroDeItens +
-                ", dataDeValidade='" + dataDeValidade + '\'' +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Lote{" +
+//                "id=" + id +
+//                ", produto=" + produto.getId() +
+//                ", numeroDeItens=" + numeroDeItens +
+//                ", dataDeValidade='" + dataDeValidade + '\'' +
+//                '}';
+//    }
 }

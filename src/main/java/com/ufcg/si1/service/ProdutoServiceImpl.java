@@ -1,100 +1,67 @@
 package com.ufcg.si1.service;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ufcg.si1.model.Lote;
 import com.ufcg.si1.model.Produto;
+import com.ufcg.si1.repository.ProdutoRepository;
 
 @Service("produtoService")
 public class ProdutoServiceImpl implements ProdutoService {
-
-	private static final AtomicLong counter = new AtomicLong();
-
-	private static List<Produto> produtos;
 	
-	private static List<Lote> lotes;
+	@Autowired
+	ProdutoRepository produtoRep;
 
-	static {
-		produtos = populateDummyProdutos();
-		lotes = new ArrayList<>();
-	}
-
-	private static List<Produto> populateDummyProdutos() {
-		List<Produto> produtos = new ArrayList<Produto>();
-		
-		produtos.add(new Produto(counter.incrementAndGet(), "Leite Integral", "87654321-B", "Parmalat", "Mercearia"));
-		produtos.add(new Produto(counter.incrementAndGet(), "Arroz Integral", "87654322-B", "Tio Joao", "Perecíveis"));
-		produtos.add(new Produto(counter.incrementAndGet(), "Sabao em Po", "87654323-B", "OMO", "Limpeza"));
-		produtos.add(new Produto(counter.incrementAndGet(), "Agua Sanitaria", "87654324-C", "Dragao", "limpesa"));
-		produtos.add(new Produto(counter.incrementAndGet(), "Creme Dental", "87654325-C", "Colgate", "HIGIENE"));
-
-		return produtos;
-	}
-
+	@Override
 	public List<Produto> findAllProdutos() {
-		return produtos;
+		return produtoRep.findAll();
 	}
 
+	@Override
 	public void saveProduto(Produto produto) {
-		produto.mudaId(counter.incrementAndGet());
-		produtos.add(produto);
+		produtoRep.save(produto);
+		
 	}
 
-	public void updateProduto(Produto produto) {
-		int index = produtos.indexOf(produto);
-		produtos.set(index, produto);
-	}
-
-	public void deleteProdutoById(long id) {
-
-		for (Iterator<Produto> iterator = produtos.iterator(); iterator.hasNext();) {
-			Produto p = iterator.next();
-			if (p.getId() == id) {
-				iterator.remove();
-			}
-		}
-	}
-
-	// este metodo nunca eh chamado, mas se precisar estah aqui
-	public int size() {
-		return produtos.size();
-	}
-
-	public Iterator<Produto> getIterator() {
-		return produtos.iterator();
-	}
-
-	public void deleteAllUsers() {
-		produtos.clear();
-	}
-
+	@Override
 	public Produto findById(long id) {
-		for (Produto produto : produtos) {
-			if (produto.getId() == id) {
-				return produto;
-			}
-		}
+		return produtoRep.findOne(id);
+	}
+
+	@Override
+	public void updateProduto(Produto produto) {
+		produtoRep.save(produto);
+	}
+
+	@Override
+	public void deleteProdutoById(long id) {
+		Produto produto = findById(id);
+		produtoRep.delete(produto);
+		
+	}
+
+	@Override
+	public int size() {
+		return produtoRep.findAll().size();
+	}
+
+	@Override
+	public Iterator<Produto> getIterator() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public boolean doesProdutoExist(Produto produto) {
-		for (Produto p : produtos) {
-			if (p.getCodigoBarra().equals(produto.getCodigoBarra())) {
-				return true;
-			}
+		if(produtoRep.findOne(produto.getId()) != null) {
+			return true;
 		}
+		
 		return false;
 	}
-	
-	public Lote saveLote(Lote lote) {
-		lote.setId(counter.incrementAndGet());
-		lotes.add(lote);
 
-		return lote;
-	}
+
 }

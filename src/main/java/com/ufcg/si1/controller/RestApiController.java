@@ -7,6 +7,8 @@ import java.util.List;
 
 import com.ufcg.si1.model.DTO.LoteDTO;
 import com.ufcg.si1.model.Lote;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -30,9 +32,11 @@ import exceptions.ObjetoInvalidoException;
 @RequestMapping("/api")
 @CrossOrigin
 public class RestApiController {
-
-	ProdutoService produtoService = new ProdutoServiceImpl();
-	LoteService loteService = new LoteServiceImpl();
+	
+	@Autowired
+	ProdutoService produtoService;
+	@Autowired
+	LoteService loteService;
 
 	// -------------------Retrieve All
 	// Products---------------------------------------------
@@ -51,8 +55,8 @@ public class RestApiController {
 	// -------------------Criar um
 	// Produto-------------------------------------------
 
-	@RequestMapping(value = "/produto/", method = RequestMethod.POST)
-	public ResponseEntity<?> criarProduto(@RequestBody Produto produto, UriComponentsBuilder ucBuilder) {
+	@RequestMapping(value = "/produto/", method = RequestMethod.POST) 
+	public ResponseEntity<Produto> criarProduto(@RequestBody Produto produto, UriComponentsBuilder ucBuilder) {
 
 		boolean produtoExiste = false;
 
@@ -75,6 +79,7 @@ public class RestApiController {
 		}
 
 		produtoService.saveProduto(produto);
+		System.out.println("Cadastrou o produto" + produto.getNome());
 
 		// HttpHeaders headers = new HttpHeaders();
 		// headers.setLocation(ucBuilder.path("/api/produto/{id}").buildAndExpand(produto.getId()).toUri());

@@ -1,12 +1,24 @@
 package com.ufcg.si1.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import exceptions.ObjetoInvalidoException;
 
-public class Produto {
+@Entity
+public class Produto implements Serializable {
+	
+	@Transient
+	private static final long serialVersionUID = 1L;
 
-	private long id;
+	@Id
+	@GeneratedValue
+	private Long id;
 
 	private String nome;
 
@@ -20,15 +32,14 @@ public class Produto {
 
 	public int situacao; // usa variaveis estaticas abaixo
 	/* situacoes do produto */
+	@Transient
 	public static final int DISPONIVEL = 1;
+	@Transient
 	public static final int INDISPONIVEL = 2;
 
-	public Produto() {
-		this.id = 0;
-		this.preco = new BigDecimal(0);
-	}
 
-	public Produto(long id, String nome, String codigoBarra, String fabricante,
+
+	public Produto(Long id, String nome, String codigoBarra, String fabricante,
 			String nomeCategoria) {
 		this.id = id;
 		this.nome = nome;
@@ -37,6 +48,10 @@ public class Produto {
 		this.fabricante = fabricante;
 		this.categoria = nomeCategoria;
 		this.situacao = Produto.INDISPONIVEL;
+	}
+	
+	public Produto() {
+		
 	}
 
 	public String getNome() {
@@ -55,11 +70,11 @@ public class Produto {
 		this.preco = preco;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void mudaId(long codigo) {
+	public void mudaId(Long codigo) {
 		this.id = codigo;
 	}
 

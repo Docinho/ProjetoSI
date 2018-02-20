@@ -13,10 +13,10 @@ public class LoteServiceImpl implements LoteService {
 
 	private static final AtomicLong counter = new AtomicLong();
 
-	private static List<Lote> lotes;
+	private  List<Lote> lotes;
 
-	static {
-		lotes = new ArrayList<>();
+	public  LoteServiceImpl() {
+		this.lotes = new ArrayList<>();
 	}
 
 	@Override
