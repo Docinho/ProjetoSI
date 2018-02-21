@@ -36,7 +36,7 @@ public class RestApiController {
 	LoteService loteService;
 	@Autowired
 	AdministradorService administradorService;
-
+	
 	Admin administradorLogado;
 
 	@RequestMapping(method = RequestMethod.POST, value = "/adm")
@@ -73,8 +73,7 @@ public class RestApiController {
 
 	@RequestMapping(method = RequestMethod.PUT, value = "/adm")
 	public ResponseEntity<Admin> logarCliente(@RequestBody Admin adm) {
-		String id = adm.getLogin() + adm.getSenha();
-		Admin administradorLogin = administradorService.findById(id);
+		Admin administradorLogin = administradorService.findById(adm.getId());
 
 		if (administradorLogin != null) {
 			administradorLogado = administradorLogin;

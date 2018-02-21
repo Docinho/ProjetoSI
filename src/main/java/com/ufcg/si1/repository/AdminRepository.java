@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.ufcg.si1.model.Admin;
 
 @Repository
-public interface AdminRepository extends JpaRepository<Admin, String>{
+public interface AdminRepository extends JpaRepository<Admin, Long>{
 
 }

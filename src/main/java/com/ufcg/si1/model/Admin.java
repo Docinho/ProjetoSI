@@ -1,26 +1,37 @@
 package com.ufcg.si1.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity
-public class Admin {
+public class Admin implements Serializable{
 
+	@Transient
+	private static final long serialVersionUID = 1L;
 	@Id
-	private String id;
+	@GeneratedValue
+	private Long id;
 	private String login, senha;
 
-	public Admin(String login, String senha) {
-		this.id = login+senha;
+	public Admin(Long id, String login, String senha) {
+		this.id = id;
 		this.login = login;
 		this.senha = senha;
 	}
+	
+	public Admin() {
+		
+	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

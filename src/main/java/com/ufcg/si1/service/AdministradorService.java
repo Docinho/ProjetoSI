@@ -3,10 +3,12 @@ package com.ufcg.si1.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ufcg.si1.model.Admin;
 import com.ufcg.si1.repository.AdminRepository;
 
+@Service
 public class AdministradorService {
 
 	@Autowired
@@ -20,7 +22,7 @@ public class AdministradorService {
 		adminrep.save(admin);
 	}
 
-	public Admin findById(String id) {
+	public Admin findById(Long id) {
 		return adminrep.findOne(id);
 	}
 
@@ -28,7 +30,7 @@ public class AdministradorService {
 		adminrep.save(admin);
 	}
 
-	public void deleteAdminById(String id) {
+	public void deleteAdminById(Long id) {
 		Admin admin = findById(id);
 		adminrep.delete(admin);
 
