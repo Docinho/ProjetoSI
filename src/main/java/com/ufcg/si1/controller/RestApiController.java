@@ -1,11 +1,9 @@
 package com.ufcg.si1.controller;
 
-import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import com.ufcg.si1.model.DTO.LoteDTO;
+import com.ufcg.si1.model.Admin;
 import com.ufcg.si1.model.Lote;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ufcg.si1.model.Produto;
+import com.ufcg.si1.service.AdministradorService;
 import com.ufcg.si1.service.LoteService;
-import com.ufcg.si1.service.LoteServiceImpl;
 import com.ufcg.si1.service.ProdutoService;
-import com.ufcg.si1.service.ProdutoServiceImpl;
 import com.ufcg.si1.util.CustomErrorType;
 
 import exceptions.ObjetoInvalidoException;
@@ -32,11 +29,60 @@ import exceptions.ObjetoInvalidoException;
 @RequestMapping("/api")
 @CrossOrigin
 public class RestApiController {
-	
+
 	@Autowired
 	ProdutoService produtoService;
 	@Autowired
 	LoteService loteService;
+	@Autowired
+	AdministradorService administradorService;
+
+	Admin administradorLogado;
+
+	@RequestMapping(method = RequestMethod.POST, value = "/adm")
+	public ResponseEntity<Admin> cadastrarCliente(@RequestBody Admin adm) {
+		boolean adminExiste = false;
+
+		for (Admin a : administradorService.findAllAdmin()) {
+			if (a.getLogin().equals(adm.getLogin())) {
+				adminExiste = true;
+			}
+		}
+
+		if (adminExiste) {
+			return new ResponseEntity(new CustomErrorType("Já existe um usuario com o login " + adm.getLogin()),
+					HttpStatus.CONFLICT);
+		}
+
+		administradorService.saveAdmin(adm);
+		System.out.println("Cadastrou o admin" + adm.getLogin());
+
+		return new ResponseEntity<Admin>(adm, HttpStatus.CREATED);
+	}
+
+	@RequestMapping(value = "/adms/", method = RequestMethod.GET)
+	public ResponseEntity<List<Admin>> listAllAdmins() {
+		List<Admin> adms = administradorService.findAllAdmin();
+
+		if (adms.isEmpty()) {
+			return new ResponseEntity<List<Admin>>(HttpStatus.NO_CONTENT);
+		}
+
+		return new ResponseEntity<List<Admin>>(adms, HttpStatus.OK);
+	}
+
+	@RequestMapping(method = RequestMethod.PUT, value = "/adm")
+	public ResponseEntity<Admin> logarCliente(@RequestBody Admin adm) {
+		String id = adm.getLogin() + adm.getSenha();
+		Admin administradorLogin = administradorService.findById(id);
+
+		if (administradorLogin != null) {
+			administradorLogado = administradorLogin;
+			return new ResponseEntity<Admin>(administradorLogado, HttpStatus.ACCEPTED);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+		}
+	}
 
 	// -------------------Retrieve All
 	// Products---------------------------------------------
@@ -55,7 +101,7 @@ public class RestApiController {
 	// -------------------Criar um
 	// Produto-------------------------------------------
 
-	@RequestMapping(value = "/produto/", method = RequestMethod.POST) 
+	@RequestMapping(value = "/produto/", method = RequestMethod.POST)
 	public ResponseEntity<Produto> criarProduto(@RequestBody Produto produto, UriComponentsBuilder ucBuilder) {
 
 		boolean produtoExiste = false;

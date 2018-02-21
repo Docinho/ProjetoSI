@@ -1,5 +1,6 @@
 package exceptions;
 
+@SuppressWarnings("serial")
 public class ObjetoInexistenteException extends Exception {
 
 	public ObjetoInexistenteException(String erro) {
