@@ -120,6 +120,14 @@ public class Produto implements Serializable {
 	public int getSituacao() throws ObjetoInvalidoException {
 		return this.situacao;
 	}
+	
+	public void update(Produto produto) {
+		this.mudaNome(produto.getNome());
+		this.setPreco(produto.getPreco());
+		this.setCodigoBarra(produto.getCodigoBarra());
+		this.mudaFabricante(produto.getFabricante());
+		this.mudaCategoria(produto.getCategoria());
+	}
 
 	@Override
 	public int hashCode() {
