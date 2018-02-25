@@ -1,6 +1,6 @@
 app.controller("SearchProductCtrl", function ($scope, $uibModal, $http, toastr,$location, mainService) {
 
-    var urlServer = "http://localhost:8080/api/";
+    var urlServer = "http://siprojeto.herokuapp.com/api/";
     // $scope.title = "Search Product";
     $scope.productsList = [];
     $scope.produtos = [];
