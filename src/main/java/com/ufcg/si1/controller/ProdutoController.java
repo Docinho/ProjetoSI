@@ -2,10 +2,6 @@ package com.ufcg.si1.controller;
 
 import java.util.List;
 
-import com.ufcg.si1.model.DTO.LoteDTO;
-import com.ufcg.si1.model.Admin;
-import com.ufcg.si1.model.Lote;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,73 +14,20 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ufcg.si1.model.Produto;
-import com.ufcg.si1.service.AdministradorService;
-import com.ufcg.si1.service.LoteService;
 import com.ufcg.si1.service.ProdutoService;
 import com.ufcg.si1.util.CustomErrorType;
 
 import exceptions.ObjetoInvalidoException;
 
 @RestController
-@RequestMapping("/api")
 @CrossOrigin
-public class RestApiController {
+@RequestMapping("/api")
+public class ProdutoController {
+	
 
 	@Autowired
 	ProdutoService produtoService;
-	@Autowired
-	LoteService loteService;
-	@Autowired
-	AdministradorService administradorService;
 	
-	Admin administradorLogado;
-
-	@RequestMapping(method = RequestMethod.POST, value = "/adm")
-	public ResponseEntity<Admin> cadastrarCliente(@RequestBody Admin adm) {
-		boolean adminExiste = false;
-
-		for (Admin a : administradorService.findAllAdmin()) {
-			if (a.getLogin().equals(adm.getLogin())) {
-				adminExiste = true;
-			}
-		}
-
-		if (adminExiste) {
-			return new ResponseEntity(new CustomErrorType("Já existe um usuario com o login " + adm.getLogin()),
-					HttpStatus.CONFLICT);
-		}
-
-		administradorService.saveAdmin(adm);
-		System.out.println("Cadastrou o admin" + adm.getLogin());
-
-		return new ResponseEntity<Admin>(adm, HttpStatus.CREATED);
-	}
-
-	@RequestMapping(value = "/adms/", method = RequestMethod.GET)
-	public ResponseEntity<List<Admin>> listAllAdmins() {
-		List<Admin> adms = administradorService.findAllAdmin();
-
-		if (adms.isEmpty()) {
-			return new ResponseEntity<List<Admin>>(HttpStatus.NO_CONTENT);
-		}
-
-		return new ResponseEntity<List<Admin>>(adms, HttpStatus.OK);
-	}
-
-	@RequestMapping(method = RequestMethod.PUT, value = "/adm")
-	public ResponseEntity<Admin> logarCliente(@RequestBody Admin adm) {
-		Admin administradorLogin = administradorService.findById(adm.getId());
-
-		if (administradorLogin != null) {
-			administradorLogado = administradorLogin;
-			return new ResponseEntity<Admin>(administradorLogado, HttpStatus.ACCEPTED);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-		}
-	}
-
-	// -------------------Retrieve All
-	// Products---------------------------------------------
 
 	@RequestMapping(value = "/produto/", method = RequestMethod.GET)
 	public ResponseEntity<List<Produto>> listAllUsers() {
@@ -166,11 +109,7 @@ public class RestApiController {
 					HttpStatus.NOT_FOUND);
 		}
 
-		currentProduto.mudaNome(produto.getNome());
-		currentProduto.setPreco(produto.getPreco());
-		currentProduto.setCodigoBarra(produto.getCodigoBarra());
-		currentProduto.mudaFabricante(produto.getFabricante());
-		currentProduto.mudaCategoria(produto.getCategoria());
+		currentProduto.update(produto);
 
 		// resolvi criar um servi�o na API s� para mudar a situa��o do produto
 		// esse c�digo n�o precisa mais
@@ -205,41 +144,4 @@ public class RestApiController {
 		return new ResponseEntity<Produto>(HttpStatus.NO_CONTENT);
 	}
 
-	@RequestMapping(value = "/produto/{id}/lote", method = RequestMethod.POST)
-	public ResponseEntity<?> criarLote(@PathVariable("id") long produtoId, @RequestBody LoteDTO loteDTO) {
-		Produto product = produtoService.findById(produtoId);
-
-		if (product == null) {
-			return new ResponseEntity(
-					new CustomErrorType("Unable to create lote. Produto with id " + produtoId + " not found."),
-					HttpStatus.NOT_FOUND);
-		}
-
-		Lote lote = loteService.saveLote(new Lote(product, loteDTO.getNumeroDeItens(), loteDTO.getDataDeValidade()));
-
-		try {
-			if (product.getSituacao() == Produto.INDISPONIVEL) {
-				if (loteDTO.getNumeroDeItens() > 0) {
-					Produto produtoDisponivel = product;
-					produtoDisponivel.situacao = Produto.DISPONIVEL;
-					produtoService.updateProduto(produtoDisponivel);
-				}
-			}
-		} catch (ObjetoInvalidoException e) {
-			e.printStackTrace();
-		}
-
-		return new ResponseEntity<>(lote, HttpStatus.CREATED);
-	}
-
-	@RequestMapping(value = "/lote/", method = RequestMethod.GET)
-	public ResponseEntity<List<Lote>> listAllLotess() {
-		List<Lote> lotes = loteService.findAllLotes();
-
-		if (lotes.isEmpty()) {
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
-			// You many decide to return HttpStatus.NOT_FOUND
-		}
-		return new ResponseEntity<List<Lote>>(lotes, HttpStatus.OK);
-	}
 }

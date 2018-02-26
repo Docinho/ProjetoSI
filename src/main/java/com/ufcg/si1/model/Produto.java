@@ -151,4 +151,12 @@ public class Produto implements Serializable {
 			return false;
 		return true;
 	}
+	
+	public void update(Produto produto) {
+		this.mudaNome(produto.getNome());
+		this.setPreco(produto.getPreco());
+		this.setCodigoBarra(produto.getCodigoBarra());
+		this.mudaFabricante(produto.getFabricante());
+		this.mudaCategoria(produto.getCategoria());
+	}
 }

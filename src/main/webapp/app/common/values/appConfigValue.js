@@ -1,3 +1,3 @@
 app.value("AppConfig", {
-    baseURL : "https://siteste.herokuapp.com/api"
+    baseURL : "http://localhost:8080/api"
 });
