@@ -30,7 +30,7 @@ public class ProdutoController {
 	
 
 	@RequestMapping(value = "/produto/", method = RequestMethod.GET)
-	public ResponseEntity<List<Produto>> listAllUsers() {
+	public ResponseEntity<List<Produto>> listarProdutos() {
 		List<Produto> produtos = produtoService.findAllProdutos();
 
 		if (produtos.isEmpty()) {
@@ -76,7 +76,7 @@ public class ProdutoController {
 	}
 
 	@RequestMapping(value = "/produto/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> consultarProduto(@PathVariable("id") long id) {
+	public ResponseEntity<?> consultarProduto(@PathVariable("id") Long id) {
 
 		Produto p = null;
 
@@ -94,7 +94,7 @@ public class ProdutoController {
 	}
 
 	@RequestMapping(value = "/produto/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<?> updateProduto(@PathVariable("id") long id, @RequestBody Produto produto) {
+	public ResponseEntity<?> updateProduto(@PathVariable("id") Long id, @RequestBody Produto produto) {
 
 		Produto currentProduto = null;
 
@@ -126,17 +126,13 @@ public class ProdutoController {
 	}
 
 	@RequestMapping(value = "/produto/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<?> deleteUser(@PathVariable("id") long id) {
+	public ResponseEntity<?> deleteProduto(@PathVariable("id") Long id) {
 
-		Produto user = null;
+		Produto produtoDeletado = produtoService.findById(id);
 
-		for (Produto produto : produtoService.findAllProdutos()) {
-			if (produto.getId() == id) {
-				user = produto;
-			}
-		}
+		
 
-		if (user == null) {
+		if (produtoDeletado == null) {
 			return new ResponseEntity(new CustomErrorType("Unable to delete. Produto with id " + id + " not found."),
 					HttpStatus.NOT_FOUND);
 		}
