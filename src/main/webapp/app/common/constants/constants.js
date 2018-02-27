@@ -1,2 +1,2 @@
 app
-    .constant('BASE_SERVER_URL', "http://localhost:8080/api");
+    .constant('BASE_SERVER_URL', "https://siprojeto.herokuapp.com/api");
