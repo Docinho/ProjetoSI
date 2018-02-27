@@ -11,17 +11,17 @@ import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-//@Entity
-public class Lote { // implements Serializable{
+@Entity
+public class Lote implements Serializable {
 
-//	@Transient
-//	private static final long serialVersionUID = 1L;
-//	@Id
-//	@GeneratedValue
+	@Transient
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue
     private Long id;
-//	@JsonBackReference
-//	@OneToOne
-//	@JoinColumn(name="Produto_id")
+	@JsonBackReference
+	@OneToOne
+	@JoinColumn(name="Produto_id")
     private Produto produto;
     private int numeroDeItens;
     private String dataDeValidade;

@@ -9,7 +9,7 @@ public interface LoteService {
 
 	List<Lote> findAllLotes();
 
-	Lote findById(long id);
+	Lote findById(Long id);
 
 	void updateProduto(Lote user);
 

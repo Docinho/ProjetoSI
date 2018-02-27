@@ -33,7 +33,7 @@ public class LoteController {
 	LoteService loteService;
 	
 	@RequestMapping(value = "/produto/{id}/lote", method = RequestMethod.POST)
-	public ResponseEntity<?> criarLote(@PathVariable("id") long produtoId, @RequestBody LoteDTO loteDTO) {
+	public ResponseEntity<?> criarLote(@PathVariable("id") Long produtoId, @RequestBody Lote lote) {
 		Produto product = produtoService.findById(produtoId);
 
 		if (product == null) {
@@ -42,11 +42,13 @@ public class LoteController {
 					HttpStatus.NOT_FOUND);
 		}
 
-		Lote lote = loteService.saveLote(new Lote(product, loteDTO.getNumeroDeItens(), loteDTO.getDataDeValidade()));
+//		Lote lote = loteService.saveLote(new Lote(product, loteDTO.getNumeroDeItens(), loteDTO.getDataDeValidade()));
+		lote.setProduto(product);
+		loteService.saveLote(lote);
 
 		try {
 			if (product.getSituacao() == Produto.INDISPONIVEL) {
-				if (loteDTO.getNumeroDeItens() > 0) {
+				if (lote.getNumeroDeItens() > 0) {
 					Produto produtoDisponivel = product;
 					produtoDisponivel.situacao = Produto.DISPONIVEL;
 					produtoService.updateProduto(produtoDisponivel);
