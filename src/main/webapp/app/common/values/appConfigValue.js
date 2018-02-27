@@ -1,3 +1,3 @@
 app.value("AppConfig", {
-    baseURL : "https://siprojeto.herokuapp.com/api"
+    baseURL : "https://supermercadoapp.herokuapp.com/#!/"
 });

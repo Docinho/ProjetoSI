@@ -6,7 +6,7 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, $http, toastr,$
     $scope.produtos = [];
 
     var loadProductsList = function () {
-        // $http.get("https://siprojeto.herokuapp.com/api/")
+        // $http.get("https:https://supermercadoapp.herokuapp.com/#!/
         //     .then(function successCallback(response) {
         //         $scope.productsList = response.data;
         //     });
@@ -67,7 +67,7 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, $http, toastr,$
     $scope.pesquisarProdutoPorId = function(id) {
         // implementar
         console.log(id)
-        $http.get("https://siprojeto.herokuapp.com/api/produto/" + id)
+        $http.get("https://supermercadoapp.herokuapp.com/#!/api/produto/" + id)
             .then(function successCallback(response) {
                 $scope.productsList = [
                     response.data
@@ -147,7 +147,7 @@ app.controller("CreateProductCtrl", function ($uibModalInstance, $http, toastr) 
 
         // product.situacao = situacao === 1 ? 1 : 2;
 
-        $http.post("https://siprojeto.herokuapp.com/api/produto/", JSON.stringify(product))
+        $http.post("https://supermercadoapp.herokuapp.com/#!/api/produto/", JSON.stringify(product))
             .then(function success(response) {
                 if (response.status === 201) {
                     toastr.success("Produto adicionado com sucesso!");
@@ -223,7 +223,7 @@ app.controller("CriarLoteCtrl", function ($scope, $uibModalInstance, $http, toas
             numeroDeItens: numeroDeItens
         }
 
-        $http.post("https://siprojeto.herokuapp.com/api/produto/" + produto.id + "/lote", JSON.stringify(lote))
+        $http.post("https://supermercadoapp.herokuapp.com/#!/api/produto/" + produto.id + "/lote", JSON.stringify(lote))
             .then(function success(response) {
                 console.log(response)
                 if (response.status === 201) {
