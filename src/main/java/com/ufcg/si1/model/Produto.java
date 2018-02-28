@@ -62,6 +62,15 @@ public class Produto implements Serializable {
 	public Produto() {
 		
 	}
+	
+	public Lote getLote() {
+		return lote;
+	}
+	
+	public void setLote(Lote lote) {
+		this.lote = lote;
+	}
+	
 
 	public String getNome() {
 		return nome;

@@ -44,6 +44,7 @@ public class LoteController {
 
 //		Lote lote = loteService.saveLote(new Lote(product, loteDTO.getNumeroDeItens(), loteDTO.getDataDeValidade()));
 		lote.setProduto(product);
+		product.setLote(lote);
 		loteService.saveLote(lote);
 
 		try {
