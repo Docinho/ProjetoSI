@@ -2,12 +2,12 @@
 <h2 class="title">Lista</h2>
 <table class="table">
     <tr>
-        <th>Lote</th>
-        <th>Produto</th>
-        <th>Data</th>
+        <th><a ng-click="order('id')">Lote</a></th>
+        <th><a ng-click="order('numeroDeItens')">Produto</a></th>
+        <th><a ng-click="order('dataDeValidade')">Data</a></th>
     </tr>
 
-    <tr ng-repeat="package in packageList">
+    <tr ng-repeat="package in packageList | orderBy:field">
         <td>Lote {{package.id}}</td>
         <td>{{package.numeroDeItens}}</td>
         <td>{{package.dataDeValidade}}</td>
