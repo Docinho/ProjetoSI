@@ -5,6 +5,7 @@ app.controller("CreateProductCtrl", function ($uibModalInstance, toastr, Product
         product.situacao = 0;
         ProductService.createProduct(product).then(function success(response) {
             if (response.status === 201) {
+            	product.id = response.id;
                 toastr.success("Produto adicionado com sucesso!");
                 $uibModalInstance.close(201);
             }
