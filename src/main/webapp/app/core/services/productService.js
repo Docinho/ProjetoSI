@@ -12,8 +12,8 @@ app.service("ProductService", function($http, BASE_SERVER_URL) {
         return $http.get("/api/produto/");
     }
 
-    this.updateProductById = (data) => {
-        var id = data.id;
+    this.updateProductById = (id, data) => {
+    	
         return $http.put("/api/produto/" + id, data);
     }
 
