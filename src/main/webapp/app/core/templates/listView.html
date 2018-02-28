@@ -1,0 +1,16 @@
+<div class="jumbotron">
+<h2 class="title">Lista</h2>
+<table class="table">
+    <tr>
+        <th>Lote</th>
+        <th>Produto</th>
+        <th>Data</th>
+    </tr>
+
+    <tr ng-repeat="package in packageList">
+        <td>Lote {{package.id}}</td>
+        <td>{{package.numeroDeItens}}</td>
+        <td>{{package.dataDeValidade}}</td>
+    </tr>
+</table>
+</div>

@@ -1,0 +1,18 @@
+<div>
+
+        <div class="jumbotron col-md-8 col-md-offset-2">
+            
+            <h3>Faça aqui seu Login</h3>
+            <form name="loginForm"></form>
+                <input type="text" ng-model="user.login" ng-required="true" placeholder="Login" class="form-control"/>
+                <input type="password" ng-model="user.password" ng-required="true" placeholder="Password" class="form-control"/>
+            
+            <div class="buttons">
+                <button class="btn btn-primary btn-block" ng-disabled="loginForm.$invalid">Login</button>
+            </div>
+    
+            Ainda não tem uma conta? Registre-se <a ng-click="openSignUpDialog()">aqui</a>.
+    
+        </div>
+    
+    </div>  
