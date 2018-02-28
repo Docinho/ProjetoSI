@@ -6,7 +6,7 @@ app.controller("UpdateProductPriceCtrl", function ($scope, $uibModalInstance, Pr
 
         console.log(product);
 
-        ProductService.updateProductById(product.id)
+        ProductService.updateProductById(produto.id, product)
             .then(function success(response) {
                 if (response.status === 200) {
                     toastr.success("Produto editado com sucesso!");
