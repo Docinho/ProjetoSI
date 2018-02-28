@@ -14,6 +14,10 @@ app.controller("SearchPackageCtrl", function ($scope, PackageService, BASE_TEMPL
             });
     };
 
+    $scope.order = (field) => {
+      $scope.field = field;
+    }
+
     initialLoad();
     initialLoad();
 });

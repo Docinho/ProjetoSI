@@ -2,6 +2,10 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, ProductService,
 
     // $scope.title = "Search Product";
 
+    $scope.order = (field) => {
+      $scope.field = field;
+    }
+
     var initialLoad = () => {
         $scope.productsList = [];
         $scope.produtos = [];
@@ -12,6 +16,7 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, ProductService,
         ProductService.getAllProducts()
             .then(response => {
                 $scope.productsList = response.data;
+                console.log($scope.productsList);
             }).catch(error => {
                 console.log(error);
             });
@@ -58,6 +63,27 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, ProductService,
         });
     };
 
+    $scope.openSellProductDialog = function(product) {
+        var modalInstance = $uibModal.open({
+            ariaLabelledBy: 'Vender Produto',
+            ariaDescribedBy: 'Formulario para Vender Produto',
+            templateUrl: BASE_TEMPLATE_PATH + 'sellProductView.html',
+            controller: 'SellProductCtrl',
+            resolve: {
+                produto: function () {
+                    return angular.copy(product);
+                }
+            }
+        });
+
+        modalInstance.result.then(result => {
+            console.log(result)
+            if (result.status === 200) {
+                loadProductsList();
+            }
+        });
+    };
+
     $scope.openCriarLoteDialog = (product) => {
 
         var modalInstance = $uibModal.open({
@@ -73,20 +99,11 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, ProductService,
         });
 
         modalInstance.result.then(result => {
-            console.log(result)
             if (result.status === 201) {
                 loadProductsList();
             }
         });
     };
-
-    // $scope.createLot = function(produto) {
-    //     console.log(produto)
-    // };
-    //
-    // $scope.atribuirPrice = function(product) {
-    //     console.log(product)
-    // };
 
     initialLoad();
     initialLoad();
