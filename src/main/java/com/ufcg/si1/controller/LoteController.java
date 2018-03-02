@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ufcg.si1.model.Lote;
-import com.ufcg.si1.model.Produto;
+import com.ufcg.si1.model.Pack;
+import com.ufcg.si1.model.Product;
 import com.ufcg.si1.model.DTO.LoteDTO;
-import com.ufcg.si1.service.LoteService;
-import com.ufcg.si1.service.ProdutoService;
+import com.ufcg.si1.service.PackService;
+import com.ufcg.si1.service.ProductService;
 import com.ufcg.si1.util.CustomErrorType;
 
 import exceptions.ObjetoInvalidoException;
@@ -27,14 +27,14 @@ import exceptions.ObjetoInvalidoException;
 public class LoteController {
 	
 	@Autowired
-	ProdutoService produtoService;
+	ProductService produtoService;
 	
 	@Autowired
-	LoteService loteService;
+	PackService loteService;
 	
-	@RequestMapping(value = "/produto/{id}/lote", method = RequestMethod.POST)
-	public ResponseEntity<?> criarLote(@PathVariable("id") Long produtoId, @RequestBody Lote lote) {
-		Produto product = produtoService.findById(produtoId);
+	@RequestMapping(value = "/produto/{id}/lote/", method = RequestMethod.POST)
+	public ResponseEntity<?> criarLote(@PathVariable("id") Long produtoId, @RequestBody Pack lote) {
+		Product product = produtoService.findById(produtoId);
 
 		if (product == null) {
 			return new ResponseEntity(
@@ -43,15 +43,16 @@ public class LoteController {
 		}
 
 //		Lote lote = loteService.saveLote(new Lote(product, loteDTO.getNumeroDeItens(), loteDTO.getDataDeValidade()));
-		lote.setProduto(product);
-		loteService.saveLote(lote);
+		lote.setProduct(product);
+		product.setPack(lote);
+		loteService.savePack(lote);
 
 		try {
-			if (product.getSituacao() == Produto.INDISPONIVEL) {
-				if (lote.getNumeroDeItens() > 0) {
-					Produto produtoDisponivel = product;
-					produtoDisponivel.situacao = Produto.DISPONIVEL;
-					produtoService.updateProduto(produtoDisponivel);
+			if (product.getSituation() == Product.UNAVAILABLE) {
+				if (lote.getItemNumber() > 0) {
+					Product produtoDisponivel = product;
+					produtoDisponivel.situacao = Product.AVAILABLE;
+					produtoService.updateProduct(produtoDisponivel);
 				}
 			}
 		} catch (ObjetoInvalidoException e) {
@@ -62,14 +63,9 @@ public class LoteController {
 	}
 
 	@RequestMapping(value = "/lote/", method = RequestMethod.GET)
-	public ResponseEntity<List<Lote>> listAllLotess() {
-		List<Lote> lotes = loteService.findAllLotes();
-
-		if (lotes.isEmpty()) {
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
-			// You many decide to return HttpStatus.NOT_FOUND
-		}
-		return new ResponseEntity<List<Lote>>(lotes, HttpStatus.OK);
+	public ResponseEntity<List<Pack>> listAllLotess() {
+		List<Pack> lotes = loteService.findAllPacks();
+		return new ResponseEntity<List<Pack>>(lotes, HttpStatus.OK);
 	}
 
 }

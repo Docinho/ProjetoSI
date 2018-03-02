@@ -6,57 +6,57 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ufcg.si1.model.Produto;
-import com.ufcg.si1.repository.ProdutoRepository;
+import com.ufcg.si1.model.Product;
+import com.ufcg.si1.repository.ProductRepository;
 
-@Service("produtoService")
-public class ProdutoServiceImpl implements ProdutoService {
+@Service("productService")
+public class ProdutoServiceImpl implements ProductService {
 	
 	@Autowired
-	ProdutoRepository produtoRep;
+	ProductRepository productRep;
 
 	@Override
-	public List<Produto> findAllProdutos() {
-		return produtoRep.findAll();
+	public List<Product> findAllProducts() {
+		return productRep.findAll();
 	}
 
 	@Override
-	public void saveProduto(Produto produto) {
-		produtoRep.save(produto);
+	public void saveProduct(Product product) {
+		productRep.save(product);
 		
 	}
 
 	@Override
-	public Produto findById(long id) {
-		return produtoRep.findOne(id);
+	public Product findById(long id) {
+		return productRep.findOne(id);
 	}
 
 	@Override
-	public void updateProduto(Produto produto) {
-		produtoRep.save(produto);
+	public void updateProduct(Product product) {
+		productRep.save(product);
 	}
 
 	@Override
-	public void deleteProdutoById(long id) {
-		Produto produto = findById(id);
-		produtoRep.delete(produto);
+	public void deleteProductById(long id) {
+		Product product = findById(id);
+		productRep.delete(product);
 		
 	}
 
 	@Override
 	public int size() {
-		return produtoRep.findAll().size();
+		return productRep.findAll().size();
 	}
 
 	@Override
-	public Iterator<Produto> getIterator() {
+	public Iterator<Product> getIterator() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean doesProdutoExist(Produto produto) {
-		if(produtoRep.findOne(produto.getId()) != null) {
+	public boolean doesProductExists(Product product) {
+		if(productRep.findOne(product.getId()) != null) {
 			return true;
 		}
 		

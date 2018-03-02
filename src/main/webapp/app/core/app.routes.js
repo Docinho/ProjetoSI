@@ -1,23 +1,21 @@
-app.config(function ($routeProvider) {
+app.config(function ($routeProvider, BASE_TEMPLATE_PATH) {
     $routeProvider.when("/",{
-      templateUrl: "app/core/main/searchProductView.html",
+      templateUrl: BASE_TEMPLATE_PATH + "searchProductView.html",
       controller: "SearchProductCtrl"
-    }).when("/products",{
-        templateUrl: "app/core/main/searchProductView.html",
-        controller: "SearchProductCtrl"
     })
-    //     .when("/products/create-product",{
-    //     templateUrl: "view/createProductView.html",
-    //     controller: "CreateProductCtrl"
-    // })
     .when("/sales",{
-        templateUrl: "app/core/main/sellingProductView.html",
+        templateUrl: BASE_TEMPLATE_PATH + "sellingProductView.html",
         controller: "SearchProductCtrl"
-    }).when("/login",{
-        templateUrl: "app/core/main/loginView.html",
-        controller: "SearchProductCtrl"
-    })
-        .otherwise({
+    }).when("/sign",{
+        templateUrl: BASE_TEMPLATE_PATH + "loginView.html",
+        controller: "LoginCtrl"
+    }).when("/list",{
+        templateUrl: BASE_TEMPLATE_PATH + "listView.html",
+        controller: "SearchPackageCtrl"
+    }).when("/discount", {
+        templateUrl: BASE_TEMPLATE_PATH + "discountView.html",
+        controller: "DiscountCtrl"
+    }).otherwise({
         redirectTo: '/'
     });
 });

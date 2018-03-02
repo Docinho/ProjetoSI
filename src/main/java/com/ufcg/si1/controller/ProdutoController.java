@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.ufcg.si1.model.Produto;
-import com.ufcg.si1.service.ProdutoService;
+import com.ufcg.si1.model.Product;
+import com.ufcg.si1.service.ProductService;
 import com.ufcg.si1.util.CustomErrorType;
 
 import exceptions.ObjetoInvalidoException;
@@ -26,90 +26,73 @@ public class ProdutoController {
 	
 
 	@Autowired
-	ProdutoService produtoService;
+	ProductService productService;
 	
 
-	@RequestMapping(value = "/produto/", method = RequestMethod.GET)
-	public ResponseEntity<List<Produto>> listarProdutos() {
-		List<Produto> produtos = produtoService.findAllProdutos();
-
-		if (produtos.isEmpty()) {
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
-			// You many decide to return HttpStatus.NOT_FOUND
-		}
-		return new ResponseEntity<List<Produto>>(produtos, HttpStatus.OK);
+	@RequestMapping(value = "/product/", method = RequestMethod.GET)
+	public ResponseEntity<List<Product>> listProducts() {
+		List<Product> products = productService.findAllProducts();
+		return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
 	}
 
 	// -------------------Criar um
 	// Produto-------------------------------------------
 
-	@RequestMapping(value = "/produto/", method = RequestMethod.POST)
-	public ResponseEntity<Produto> criarProduto(@RequestBody Produto produto, UriComponentsBuilder ucBuilder) {
+	@RequestMapping(value = "/product/", method = RequestMethod.POST)
+	public ResponseEntity<Product> createProduct(@RequestBody Product product, UriComponentsBuilder ucBuilder) {
 
-		boolean produtoExiste = false;
+		boolean productExists = false;
 
-		for (Produto p : produtoService.findAllProdutos()) {
-			if (p.getCodigoBarra().equals(produto.getCodigoBarra())) {
-				produtoExiste = true;
+		for (Product p : productService.findAllProducts()) {
+			if (p.getBarCode().equals(product.getBarCode())) {
+				productExists = true;
 			}
 		}
 
-		if (produtoExiste) {
-			return new ResponseEntity(new CustomErrorType("O produto " + produto.getNome() + " do fabricante "
-					+ produto.getFabricante() + " ja esta cadastrado!"), HttpStatus.CONFLICT);
+		if (productExists) {
+			return new ResponseEntity(new CustomErrorType("O produto " + product.getName() + " do fabricante "
+					+ product.getManufacturer() + " ja esta cadastrado!"), HttpStatus.CONFLICT);
 		}
 
 		try {
-			produto.mudaSituacao(Produto.INDISPONIVEL);
+			product.setSituation(Product.UNAVAILABLE);
 		} catch (ObjetoInvalidoException e) {
-			return new ResponseEntity(new CustomErrorType("Error: Produto" + produto.getNome() + " do fabricante "
-					+ produto.getFabricante() + " alguma coisa errada aconteceu!"), HttpStatus.NOT_ACCEPTABLE);
+			return new ResponseEntity(new CustomErrorType("Error: Produto" + product.getName() + " do fabricante "
+					+ product.getManufacturer() + " alguma coisa errada aconteceu!"), HttpStatus.NOT_ACCEPTABLE);
 		}
 
-		produtoService.saveProduto(produto);
-		System.out.println("Cadastrou o produto" + produto.getNome());
+		productService.saveProduct(product);
+		System.out.println("Cadastrou o produto" + product.getName());
 
 		// HttpHeaders headers = new HttpHeaders();
-		// headers.setLocation(ucBuilder.path("/api/produto/{id}").buildAndExpand(produto.getId()).toUri());
+		// headers.setLocation(ucBuilder.path("/api/product/{id}").buildAndExpand(product.getId()).toUri());
 
-		return new ResponseEntity<Produto>(produto, HttpStatus.CREATED);
+		return new ResponseEntity<Product>(product, HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/produto/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> consultarProduto(@PathVariable("id") Long id) {
 
-		Produto p = null;
-
-		for (Produto produto : produtoService.findAllProdutos()) {
-			if (produto.getId() == id) {
-				p = produto;
-			}
-		}
+		Product p = productService.findById(id); // REFACTOR TO FIX COHESION
 
 		if (p == null) {
 			return new ResponseEntity(new CustomErrorType("Produto with id " + id + " not found"),
 					HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<Produto>(p, HttpStatus.OK);
+		return new ResponseEntity<Product>(p, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/produto/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<?> updateProduto(@PathVariable("id") Long id, @RequestBody Produto produto) {
+	@RequestMapping(value = "/product/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<?> updateProduct(@PathVariable("id") Long id, @RequestBody Product product) {
 
-		Produto currentProduto = null;
+		Product currentProduct = productService.findById(id); // REFACTOR TO FIX COHESION
 
-		for (Produto p : produtoService.findAllProdutos()) {
-			if (p.getId() == id) {
-				currentProduto = p;
-			}
-		}
-
-		if (currentProduto == null) {
+		if (currentProduct == null) {
 			return new ResponseEntity(new CustomErrorType("Unable to upate. Produto with id " + id + " not found."),
 					HttpStatus.NOT_FOUND);
 		}
 
-		currentProduto.update(produto);
+		currentProduct.update(product);
 
 		// resolvi criar um servi�o na API s� para mudar a situa��o do produto
 		// esse c�digo n�o precisa mais
@@ -121,23 +104,21 @@ public class ProdutoController {
 		// HttpStatus.NOT_FOUND);
 		// }
 
-		produtoService.updateProduto(currentProduto);
-		return new ResponseEntity<Produto>(currentProduto, HttpStatus.OK);
+		productService.updateProduct(currentProduct);
+		return new ResponseEntity<Product>(currentProduct, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/produto/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/product/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<?> deleteProduto(@PathVariable("id") Long id) {
 
-		Produto produtoDeletado = produtoService.findById(id);
-
-		
+		Product produtoDeletado = productService.findById(id);
 
 		if (produtoDeletado == null) {
 			return new ResponseEntity(new CustomErrorType("Unable to delete. Produto with id " + id + " not found."),
 					HttpStatus.NOT_FOUND);
 		}
-		produtoService.deleteProdutoById(id);
-		return new ResponseEntity<Produto>(HttpStatus.NO_CONTENT);
+		productService.deleteProductById(id);
+		return new ResponseEntity<Product>(HttpStatus.NO_CONTENT);
 	}
 
 }
