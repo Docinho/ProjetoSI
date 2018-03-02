@@ -5,6 +5,10 @@ app.controller("SearchPackageCtrl", function ($scope, PackageService, BASE_TEMPL
         loadPackageList();
     }
 
+    $scope.order = (field) => {
+        $scope.field = field;
+    }
+
     var loadPackageList = () => {
         PackageService.getAllPackages()
             .then(response => {
@@ -13,10 +17,6 @@ app.controller("SearchPackageCtrl", function ($scope, PackageService, BASE_TEMPL
                 console.log(error);
             });
     };
-
-    $scope.order = (field) => {
-      $scope.field = field;
-    }
 
     initialLoad();
     initialLoad();

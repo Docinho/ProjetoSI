@@ -1,4 +1,4 @@
-app.filter("disponivel", function() {
+app.filter("availableFilter", function() {
     return function(situation) {
         if (situation == 1) {
             return "Disponível"

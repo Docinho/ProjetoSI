@@ -1,6 +1,6 @@
 app.controller("LoginCtrl", function($scope, $uibModal, toastr, UserService, BASE_TEMPLATE_PATH) {
     $scope.loginUser = (userParams) => {
-        UserService.loginUser(userParams)
+        UserService.login(userParams)
             .then(function successCallback(result) {
                 toastr.success("Login feito com sucesso");
                 $uibModalInstance.close(201);

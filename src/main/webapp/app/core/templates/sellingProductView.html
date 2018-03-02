@@ -9,27 +9,17 @@
               <a href="#">{{product.nome}}</a>
             </h4>
             <h5 id="product-price">
-              <div ng-if="!product.preco">
-                R$ 0,00
-              </div>
-              <div ng-if="product.preco">
-                R$ {{product.preco}}
-              </div>
+              {{product.preco | currency:"R$"}} <!-- TODO Add price format -->
             </h5>
             <h5 id="product-situation">
-              <div ng-if="product.situacao === 1">
-                Disponivel
-              </div>
-              <div ng-if="product.situacao === 2">
-                Em falta
-              </div>
+              {{product.situacao | disponivel}}
             </h5>
             <div class="btn-group" uib-dropdown>
               <button id="single-button" type="button" class="btn btn-default pull-right" uib-dropdown-toggle>
                 <span class="glyphicon glyphicon-cog"></span><span class="caret"></span>
               </button>
               <ul class="dropdown-menu dropdown-menu-right" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                <li role="menuitem"><a ng-click="">Vender produto</a></li>
+                <li role="menuitem"><a ng-click="openSellProductDialog(product)">Vender produto</a></li>
               </ul>
             </div>
 

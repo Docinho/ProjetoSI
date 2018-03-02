@@ -13,7 +13,6 @@ app.service("ProductService", function($http, BASE_SERVER_URL) {
     }
 
     this.updateProductById = (id, data) => {
-    	
         return $http.put("/api/produto/" + id, data);
     }
 

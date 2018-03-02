@@ -83,3 +83,11 @@ ul.c-controls li a i {
 .flex-text {
 	flex-grow: 1;
 }
+
+.table.table-striped {
+    margin-top: 30px;
+}
+
+.v-align {
+    margin-top: 15px;
+}
