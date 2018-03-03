@@ -1,0 +1,25 @@
+<div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Criar Novo Desconto</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <form name="createDiscount">
+            <div>
+                <label>Categoria:</label>
+                <select ng-model="discount.category" ng-required="true" ng-options="opt.type for opt in categories" class="form-control">
+                    <option value="">Selecione uma categoria</option>
+                </select>
+            </div>
+            <div>
+                <label>Desconto:</label>
+                <select ng-model="discount.type" ng-required="true" ng-options="disc.presentation for disc in discounts" class="form-control">
+                    <option value="">Selecione um tipo de desconto</option>
+                </select>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" 
+            ng-disabled="createDiscount.$invalid"
+            ng-click="submit(discount)"> Salvar </button>
+        <button class="btn btn-danger" type="button" ng-click="cancel()">Cancelar</button>
+    </div>

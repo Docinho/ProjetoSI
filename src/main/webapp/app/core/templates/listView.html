@@ -1,0 +1,20 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-11 col-md-10 col-lg-9">
+            <h2>Registro de lotes</h2>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <tr>
+            <th class="text-center"><a ng-click="order('id')">Lote</a></th>
+            <th class="text-center"><a ng-click="order('numeroDeItens')">Produto</a></th>
+            <th class="text-center"><a ng-click="order('dataDeValidade')">Data</a></th>
+        </tr>
+    
+        <tr ng-repeat="package in packageList | orderBy:field">
+            <td class="text-center">{{"Lote " + package.id}}</td>
+            <td class="text-center">{{package.numeroDeItens}}</td>
+            <td class="text-center">{{package.dataDeValidade}}</td>
+        </tr>
+    </table>
+</div>

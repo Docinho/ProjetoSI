@@ -82,12 +82,12 @@
   <version>9.4.1208</version>
 </dependency>
 
-<dependency>
+<!--<dependency>
 <groupId>org.apache.commons</groupId>
 <artifactId>commons-dbcp2</artifactId>
 <version>${commons-dbcp2.version}</version>
 <scope>compile</scope>
-</dependency>
+</dependency> -->
 
 	</dependencies>
 
