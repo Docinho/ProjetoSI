@@ -2,6 +2,7 @@ package com.ufcg.si1.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -20,7 +21,7 @@ public class Lote implements Serializable {
 	@GeneratedValue
 	private Long id;
 	@JsonBackReference
-	@OneToOne
+	@OneToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name = "Produto_id")
 	private Produto produto;
 	private int numeroDeItens;

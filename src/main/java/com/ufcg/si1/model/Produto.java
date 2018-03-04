@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,6 +12,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cascade;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -33,8 +36,10 @@ public class Produto implements Serializable {
 	private String codigoBarra;
 
 	private String fabricante;
-
-	private String categoria;
+	
+	@JsonManagedReference
+	@OneToOne(mappedBy="produto", cascade = {CascadeType.ALL})
+	private Categoria categoria;
 	
 	private boolean estaVencido;
 	
@@ -55,19 +60,23 @@ public class Produto implements Serializable {
 			String nomeCategoria, boolean estaVencido) {
 		this.id = id;
 		this.nome = nome;
-		this.preco = new BigDecimal(0);
+		this.preco =  new BigDecimal(0);
 		this.codigoBarra = codigoBarra;
 		this.fabricante = fabricante;
-		this.categoria = nomeCategoria;
+		this.categoria = new Categoria(nomeCategoria);
 		this.situacao = Produto.INDISPONIVEL;
 		this.estaVencido = estaVencido;
 	}
 	
+
+
 	public Produto() {
 		
 	}
 	
-	
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
 	
 	public boolean isEstaVencido() {
 		return estaVencido;
@@ -126,11 +135,11 @@ public class Produto implements Serializable {
 		this.codigoBarra = codigoBarra;
 	}
 
-	public String getCategoria() {
+	public Categoria getCategoria() {
 		return this.categoria;
 	}
 
-	public void mudaCategoria(String categoria) {
+	public void mudaCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
 		

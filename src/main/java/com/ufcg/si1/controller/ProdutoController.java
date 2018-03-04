@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.ufcg.si1.model.Categoria;
 import com.ufcg.si1.model.Produto;
+import com.ufcg.si1.repository.ProdutoRepository;
 import com.ufcg.si1.service.ProdutoService;
 import com.ufcg.si1.util.CustomErrorType;
 
@@ -100,7 +102,7 @@ public class ProdutoController {
 		}
 
 		if (currentProduto == null) {
-			return new ResponseEntity(new CustomErrorType("Unable to upate. Produto with id " + id + " not found."),
+			return new ResponseEntity(new CustomErrorType("Unable to update. Produto with id " + id + " not found."),
 					HttpStatus.NOT_FOUND);
 		}
 
@@ -134,5 +136,9 @@ public class ProdutoController {
 		produtoService.deleteProdutoById(id);
 		return new ResponseEntity<Produto>(HttpStatus.NO_CONTENT);
 	}
+	
+
+	
+	
 
 }
