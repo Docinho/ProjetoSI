@@ -42,7 +42,7 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, ProductService,
         });
     };
 
-    $scope.openAtribuirPrecoParaProdutoDialog = function(product) {
+    $scope.openPriceOfProdutoDialog = function(product) {
         var modalInstance = $uibModal.open({
             ariaLabelledBy: 'Atribuir preço ao Produto',
             ariaDescribedBy: 'Formulario para Atribuir preço ao Produto',
@@ -84,7 +84,7 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, ProductService,
         });
     };
 
-    $scope.openCriarLoteDialog = (product) => {
+    $scope.openCreatePackDialog = (product) => {
 
         var modalInstance = $uibModal.open({
             ariaLabelledBy: 'Criar lote',

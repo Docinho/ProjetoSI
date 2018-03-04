@@ -7,14 +7,14 @@
     <table class="table table-striped">
         <tr>
             <th class="text-center"><a ng-click="order('id')">Lote</a></th>
-            <th class="text-center"><a ng-click="order('numeroDeItens')">Produto</a></th>
-            <th class="text-center"><a ng-click="order('dataDeValidade')">Data</a></th>
+            <th class="text-center"><a ng-click="order('itemNumber')">Produto</a></th>
+            <th class="text-center"><a ng-click="order('expirationDate')">Data</a></th>
         </tr>
     
         <tr ng-repeat="package in packageList | orderBy:field">
             <td class="text-center">{{"Lote " + package.id}}</td>
-            <td class="text-center">{{package.numeroDeItens}}</td>
-            <td class="text-center">{{package.dataDeValidade}}</td>
+            <td class="text-center">{{package.itemNumber}}</td>
+            <td class="text-center">{{package.expirationDate}}</td>
         </tr>
     </table>
 </div>
