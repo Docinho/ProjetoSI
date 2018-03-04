@@ -36,6 +36,8 @@ public class Produto implements Serializable {
 
 	private String categoria;
 	
+	private boolean estaVencido;
+	
 	@JsonManagedReference
 	@OneToMany(mappedBy="produto")
 	private List<Lote> lotes;
@@ -50,7 +52,7 @@ public class Produto implements Serializable {
 
 
 	public Produto(Long id, String nome, String codigoBarra, String fabricante,
-			String nomeCategoria) {
+			String nomeCategoria, boolean estaVencido) {
 		this.id = id;
 		this.nome = nome;
 		this.preco = new BigDecimal(0);
@@ -58,12 +60,23 @@ public class Produto implements Serializable {
 		this.fabricante = fabricante;
 		this.categoria = nomeCategoria;
 		this.situacao = Produto.INDISPONIVEL;
+		this.estaVencido = estaVencido;
 	}
 	
 	public Produto() {
 		
 	}
 	
+	
+	
+	public boolean isEstaVencido() {
+		return estaVencido;
+	}
+
+	public void setEstaVencido(boolean estaVencido) {
+		this.estaVencido = estaVencido;
+	}
+
 	public List<Lote> getLotes() {
 		return lotes;
 	}
