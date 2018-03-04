@@ -1,0 +1,31 @@
+<div>
+	
+<div class="jumbotron">
+<h2 class="title">Categorias e seus Descontos</h2>
+<table class="table">
+    <tr>
+        <th><a>Nome da Categoria</a></th>
+        <th><a>Desconto atual da Categoria</a></th>
+        <th><a>Novo Desconto</a></th>
+          <th><a>Ação</a></th>
+
+    </tr>
+
+    <tr ng-repeat="i in categorias">
+        <td>{{i.nomeDaCategoria}}</td>
+        <td>{{i.desconto}}%</td>
+        <td>
+        	<select id="opcaoDesconto">
+				  <option value="0">0%</option>
+				  <option value = "10">10%</option>
+				  <option value = "25">25%</option>
+				  <option value = "50">50%</option>
+			</select>
+        </td>
+        <td><button ng-click="atualizarDesconto(i)">Alterar desconto</button></td>
+    </tr>
+</table>
+</div>
+
+
+</div>

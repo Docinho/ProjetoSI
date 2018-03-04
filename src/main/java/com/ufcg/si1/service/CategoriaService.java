@@ -25,5 +25,9 @@ public class CategoriaService {
 	public Categoria cadastrarCategoria(Categoria categoria) {
 		return categoriaRep.save(categoria);
 	}
+	
+	public Categoria atualizarCategoria(Categoria categoria) {
+		return categoriaRep.save(categoria);
+	}
 
 }

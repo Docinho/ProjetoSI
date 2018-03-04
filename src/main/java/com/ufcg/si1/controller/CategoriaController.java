@@ -41,15 +41,16 @@ public class CategoriaController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/produto/{id}/categoria/{desconto}", method = RequestMethod.POST)
-	public ResponseEntity<Produto> definirCategoria(@PathVariable Long id, @PathVariable int desconto) {
-		Produto produtoEncontrado = produtoService.findById(id);
-		
-		if(produtoEncontrado != null ) {
+	@RequestMapping(value = "/categoria/{id}/{desconto}", method = RequestMethod.GET)
+	public ResponseEntity<Categoria> definirCategoria(@PathVariable Long id, @PathVariable int desconto) {
+		Categoria categoriaEncontrada = categoriaService.procurarPorId(id);
+		System.out.println("Encontrou a categoria " + categoriaEncontrada.getNomeDaCategoria());
+		if(categoriaEncontrada != null ) {
 			
-			produtoEncontrado.getCategoria().setDesconto(desconto);
-			produtoService.updateProduto(produtoEncontrado);
-			return new ResponseEntity<Produto>(produtoEncontrado, HttpStatus.CREATED);
+			categoriaEncontrada.setDesconto(desconto);
+			categoriaService.atualizarCategoria(categoriaEncontrada);
+			
+			return new ResponseEntity<Categoria>(categoriaEncontrada, HttpStatus.CREATED);
 
 		} else {
 			return new ResponseEntity(new CustomErrorType("Unable to upate. Produto with id " + id + " not found."),
