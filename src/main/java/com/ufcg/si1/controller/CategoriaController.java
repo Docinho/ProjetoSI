@@ -42,9 +42,8 @@ public class CategoriaController {
 	 * @return
 	 */
 	@RequestMapping(value = "/categoria/{id}/{desconto}", method = RequestMethod.GET)
-	public ResponseEntity<Categoria> definirCategoria(@PathVariable Long id, @PathVariable int desconto) {
+	public ResponseEntity<Categoria> definirDescontoCategoria(@PathVariable Long id, @PathVariable int desconto) {
 		Categoria categoriaEncontrada = categoriaService.procurarPorId(id);
-		System.out.println("Encontrou a categoria " + categoriaEncontrada.getNomeDaCategoria());
 		if(categoriaEncontrada != null ) {
 			
 			categoriaEncontrada.setDesconto(desconto);

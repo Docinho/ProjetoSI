@@ -15,16 +15,18 @@
         <td>{{i.nomeDaCategoria}}</td>
         <td>{{i.desconto}}%</td>
         <td>
-        	<select id="opcaoDesconto">
-				  <option value="0">0%</option>
-				  <option value = "10">10%</option>
-				  <option value = "25">25%</option>
-				  <option value = "50">50%</option>
-			</select>
+		    <select name="singleSelect" ng-model="data.singleSelect">
+		      <option value="0">0%</option>
+		      <option value="10">10%</option>
+		      <option value="25">25%</option>
+		      <option value="50">50%</option>
+		    </select>
         </td>
-        <td><button ng-click="atualizarDesconto(i)">Alterar desconto</button></td>
+        <td><button ng-click="atualizarDesconto(i, data.singleSelect)">Alterar desconto</button></td>
     </tr>
 </table>
+
+{{descontoAtual}}
 </div>
 
 

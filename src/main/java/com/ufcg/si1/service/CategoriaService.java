@@ -29,5 +29,9 @@ public class CategoriaService {
 	public Categoria atualizarCategoria(Categoria categoria) {
 		return categoriaRep.save(categoria);
 	}
+	
+	public Categoria procurarPorNome(String nome) {
+		return categoriaRep.buscarPorNome(nome);
+	}
 
 }

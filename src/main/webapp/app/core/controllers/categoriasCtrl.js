@@ -1,6 +1,7 @@
 app.controller("categoriaCtrl", function ($scope, $http, toastr, ProductService) {
     $scope.categorias = [];
 
+
     var listarCategorias = function() {
 
         $http({method:'GET', url:'http://localhost:8080/api/categorias/'})
@@ -13,24 +14,33 @@ app.controller("categoriaCtrl", function ($scope, $http, toastr, ProductService)
             });         
     }
 
-    $scope.atualizarDesconto = function(Categoria) {
-        var form = document.getElementById("opcaoDesconto");
-         var desconto = form.options[form.selectedIndex].value;
-         console.log(Categoria);
+    $scope.atualizarDesconto = function(Categoria, opcao) {
 
+        var desconto = parseInt(opcao);
 
-          $http({method:'GET', url:"http://localhost:8080/api/categoria/"+ Categoria.id +"/" + desconto})
+        
+        if(isNaN(desconto)) {
+           toastr.error("Selecione um desconto antes de alterar!");
+
+        } else {
+            $http({method:'GET', url:"http://localhost:8080/api/categoria/"+ Categoria.id +"/" + desconto})
             .then(function(resposta){
                      Categoria.desconto = resposta.data.desconto;
-                    console.log("Mudou o desconto com sucesso!")
+                     toastr.success("Desconto alterado com sucesso!");
+
                 
             }, function(resposta){
              console.log("Falha " + resposta);          
 
-               });
+               }); 
+        }
 
 
-    } 
+
+
+    }
+
+
 
     listarCategorias();
 });

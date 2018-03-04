@@ -16,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.ufcg.si1.model.Categoria;
 import com.ufcg.si1.model.Produto;
 import com.ufcg.si1.repository.ProdutoRepository;
+import com.ufcg.si1.service.CategoriaService;
 import com.ufcg.si1.service.ProdutoService;
 import com.ufcg.si1.util.CustomErrorType;
 
@@ -30,6 +31,9 @@ public class ProdutoController {
 	@Autowired
 	ProdutoService produtoService;
 	
+	@Autowired
+	CategoriaService categoriaService;
+	
 
 	@RequestMapping(value = "/produto/", method = RequestMethod.GET)
 	public ResponseEntity<List<Produto>> listarProdutos() {
@@ -42,7 +46,18 @@ public class ProdutoController {
 
 	@RequestMapping(value = "/produto/", method = RequestMethod.POST)
 	public ResponseEntity<Produto> criarProduto(@RequestBody Produto produto, UriComponentsBuilder ucBuilder) {
-
+		Categoria categoria = produto.getCategoria();
+		Categoria categoriaPesquisada = categoriaService.procurarPorNome(categoria.getNomeDaCategoria());
+		produto.setCategoria(null);
+		
+		if(categoriaPesquisada != null) {
+			produto.setCategoria(categoriaPesquisada);
+		} else {
+			System.out.println("entrou na primeira");
+			produto.setCategoria(categoria);
+		}
+		
+		
 		boolean produtoExiste = false;
 
 		for (Produto p : produtoService.findAllProdutos()) {
@@ -62,13 +77,10 @@ public class ProdutoController {
 			return new ResponseEntity(new CustomErrorType("Error: Produto" + produto.getNome() + " do fabricante "
 					+ produto.getFabricante() + " alguma coisa errada aconteceu!"), HttpStatus.NOT_ACCEPTABLE);
 		}
-
+		
+		System.out.println(produto.getCategoria().getId());
 		produtoService.saveProduto(produto);
-		System.out.println("Cadastrou o produto" + produto.getNome());
-
-		// HttpHeaders headers = new HttpHeaders();
-		// headers.setLocation(ucBuilder.path("/api/produto/{id}").buildAndExpand(produto.getId()).toUri());
-
+		
 		return new ResponseEntity<Produto>(produto, HttpStatus.CREATED);
 	}
 

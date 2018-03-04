@@ -8,6 +8,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -15,6 +17,7 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import exceptions.ObjetoInvalidoException;
@@ -37,8 +40,9 @@ public class Produto implements Serializable {
 
 	private String fabricante;
 	
-	@JsonManagedReference
-	@OneToOne(mappedBy="produto", cascade = {CascadeType.ALL})
+	@JsonBackReference
+	@ManyToOne( cascade = {CascadeType.ALL})
+	@JoinColumn(name="Categoria_id")
 	private Categoria categoria;
 	
 	private boolean estaVencido;
@@ -57,13 +61,13 @@ public class Produto implements Serializable {
 
 
 	public Produto(Long id, String nome, String codigoBarra, String fabricante,
-			String nomeCategoria, boolean estaVencido) {
+			Categoria categoria, boolean estaVencido) {
 		this.id = id;
 		this.nome = nome;
 		this.preco =  new BigDecimal(0);
 		this.codigoBarra = codigoBarra;
 		this.fabricante = fabricante;
-		this.categoria = new Categoria(nomeCategoria);
+		this.categoria = categoria;
 		this.situacao = Produto.INDISPONIVEL;
 		this.estaVencido = estaVencido;
 	}
