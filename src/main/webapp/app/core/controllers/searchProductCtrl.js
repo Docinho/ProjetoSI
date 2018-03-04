@@ -46,8 +46,8 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, ProductService,
         var modalInstance = $uibModal.open({
             ariaLabelledBy: 'Atribuir preço ao Produto',
             ariaDescribedBy: 'Formulario para Atribuir preço ao Produto',
-            templateUrl: BASE_TEMPLATE_PATH + 'updateProductPriceView.html',
-            controller: 'UpdateProductPriceCtrl',
+            templateUrl: BASE_TEMPLATE_PATH + 'updateProductView.html',
+            controller: 'UpdateProductCtrl',
             resolve: {
                 produto: function () {
                     return angular.copy(product);
