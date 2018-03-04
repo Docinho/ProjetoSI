@@ -11,7 +11,7 @@ app.controller("UpdateProductCtrl", function ($scope, $uibModalInstance, Product
                     $uibModalInstance.close(201);
                 }
             }, function error(error) {
-                toastr.error("Problemas ao tentar atribuir preço ao produto: " + paramProduct.nome);
+                toastr.error("Problemas ao tentar atribuir preço ao produto: " + paramProduct.name);
             });
 
     };
