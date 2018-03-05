@@ -7,8 +7,6 @@ app.controller("categoriaCtrl", function ($scope, $http, toastr, ProductService)
         $http({method:'GET', url:'/api/category/'})
             .then(function(answer){
                 $scope.categories = answer.data;
-                console.log("Fez corretamente o GET das categorias");
-                
             }, function(answer){
                 console.log("Fez erroneamente o GET das categorias");
             });         
