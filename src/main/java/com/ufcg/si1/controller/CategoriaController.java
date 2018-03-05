@@ -39,10 +39,10 @@ public class CategoriaController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/category/{id}/{desconto}", method = RequestMethod.GET)
+	@RequestMapping(value = "/category/{id}/{discount}", method = RequestMethod.GET)
 	public ResponseEntity<Category> difineDiscount(@PathVariable Long id, @PathVariable int discount) {
 		Category category = categoryService.findById(id);
-		if(category != null ) {
+		if(category != null) {
 			
 			category.setDiscount(discount);
 			categoryService.updateCategory(category);
