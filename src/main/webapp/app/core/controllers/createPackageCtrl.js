@@ -22,7 +22,7 @@ app.controller("CreatePackageCtrl", function ($scope, $uibModalInstance, toastr,
             itemNumber: itemNumber
         }
 
-        PackageService.createPackage(product, package)
+        PackageService.createPackage($scope.product.id, package)
             .then(function success(response) {
                 if (response.status === 201) {
                     toastr.success("Lote criado com sucesso!");
