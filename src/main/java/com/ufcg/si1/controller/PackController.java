@@ -2,6 +2,7 @@ package com.ufcg.si1.controller;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ufcg.si1.model.Pack;
 import com.ufcg.si1.model.Product;
-import com.ufcg.si1.model.DTO.LoteDTO;
 import com.ufcg.si1.service.PackService;
 import com.ufcg.si1.service.ProductService;
 import com.ufcg.si1.util.CustomErrorType;
@@ -33,33 +33,33 @@ public class PackController {
 	PackService packService;
 	
 	@RequestMapping(value = "/product/{id}/pack/", method = RequestMethod.POST)
-	public ResponseEntity<?> criarLote(@PathVariable("id") Long produtoId, @RequestBody Pack lote) {
-		Product product = productService.findById(produtoId);
+	public ResponseEntity<?> criarLote(@PathVariable("id") Long productId, @RequestBody Pack pack) {
+		Product product = productService.findById(productId);
 
 		if (product == null) {
 			return new ResponseEntity(
-					new CustomErrorType("Unable to create lote. Produto with id " + produtoId + " not found."),
+					new CustomErrorType("Unable to create lote. Produto with id " + productId + " not found."),
 					HttpStatus.NOT_FOUND);
 		}
 
 //		Lote lote = loteService.saveLote(new Lote(product, loteDTO.getNumeroDeItens(), loteDTO.getDataDeValidade()));
-		lote.setProduct(product);
-		product.setPack(lote);
-		packService.savePack(lote);
+		pack.setProduct(product);
+		product.getPacks().add(pack);
+		packService.savePack(pack);
 
 		try {
 			if (product.getSituation() == Product.UNAVAILABLE) {
-				if (lote.getItemNumber() > 0) {
-					Product produtoDisponivel = product;
-					produtoDisponivel.situacao = Product.AVAILABLE;
-					productService.updateProduct(produtoDisponivel);
+				if (pack.getItemNumber() > 0) {
+					Product availableProduct = product;
+					availableProduct.situation = Product.AVAILABLE;
+					productService.updateProduct(availableProduct);
 				}
 			}
 		} catch (ObjetoInvalidoException e) {
 			e.printStackTrace();
 		}
 
-		return new ResponseEntity<>(lote, HttpStatus.CREATED);
+		return new ResponseEntity<>(pack, HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/pack/", method = RequestMethod.GET)

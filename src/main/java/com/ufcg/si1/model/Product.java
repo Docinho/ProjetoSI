@@ -2,20 +2,25 @@ package com.ufcg.si1.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import exceptions.ObjetoInvalidoException;
 
 @Entity
 public class Product implements Serializable {
-	
+
 	@Transient
 	private static final long serialVersionUID = 1L;
 
@@ -31,44 +36,55 @@ public class Product implements Serializable {
 
 	private String manufacturer;
 
-	private String category;
-	
-	@JsonManagedReference
-	@OneToOne(mappedBy="product")
-	private Pack pack;
+	@JsonBackReference
+	@ManyToOne(cascade = { CascadeType.ALL })
+	@JoinColumn(name = "Categoria_id")
+	private Category category;
 
-	public int situacao; // usa variaveis estaticas abaixo
+	private boolean isExpired;
+
+	@JsonManagedReference
+	@OneToMany(mappedBy = "product")
+	private List<Pack> packs;
+
+	public int situation; // usa variaveis estaticas abaixo
 	/* situacoes do produto */
 	@Transient
 	public static final int AVAILABLE = 1;
 	@Transient
 	public static final int UNAVAILABLE = 2;
 
-
-
-	public Product(Long id, String name, String barCode, String manufacturer,
-			String categoryName) {
+	public Product(Long id, String name, String barCode, String manufacturer, Category category,
+			boolean isExpired) {
 		this.id = id;
 		this.name = name;
 		this.price = new BigDecimal(0);
 		this.barCode = barCode;
 		this.manufacturer = manufacturer;
-		this.category = categoryName;
-		this.situacao = Product.UNAVAILABLE;
+		this.category = category;
+		this.situation = Product.UNAVAILABLE;
+		this.isExpired = isExpired;
 	}
-	
+
 	public Product() {
-		
+
 	}
-	
-	public Pack getPack() {
-		return pack;
+
+	public boolean isExpired() {
+		return isExpired;
 	}
-	
-	public void setPack(Pack pack) {
-		this.pack = pack;
+
+	public void setExpired(boolean isExpired) {
+		this.isExpired = isExpired;
 	}
-	
+
+	public List<Pack> getPacks() {
+		return packs;
+	}
+
+	public void setPacks(List<Pack> packs) {
+		this.packs = packs;
+	}
 
 	public String getName() {
 		return name;
@@ -110,21 +126,21 @@ public class Product implements Serializable {
 		this.barCode = newBarCode;
 	}
 
-	public String getCategory() {
+	public Category getCategory() {
 		return this.category;
 	}
 
-	public void setCategory(String newCategory) {
+	public void setCategory(Category newCategory) {
 		this.category = newCategory;
 	}
-		
+
 	public void setSituation(int newSituation) throws ObjetoInvalidoException {
 		switch (newSituation) {
 		case 1:
-			this.situacao = Product.AVAILABLE;
+			this.situation = Product.AVAILABLE;
 			break;
 		case 2:
-			this.situacao = Product.UNAVAILABLE;
+			this.situation = Product.UNAVAILABLE;
 			break;
 
 		default:
@@ -133,7 +149,7 @@ public class Product implements Serializable {
 	}
 
 	public int getSituation() throws ObjetoInvalidoException {
-		return this.situacao;
+		return this.situation;
 	}
 
 	@Override
@@ -166,7 +182,7 @@ public class Product implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 	public void update(Product product) {
 		this.changeName(product.getName());
 		this.setPrice(product.getPrice());

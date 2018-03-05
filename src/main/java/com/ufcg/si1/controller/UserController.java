@@ -53,7 +53,7 @@ public class UserController {
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, value = "/user/")
-	public ResponseEntity<User> logarCliente(@RequestBody User user) {
+	public ResponseEntity<User> loginUser(@RequestBody User user) {
 		User userLogin = userService.findById(user.getId());
 
 		if (userLogin != null) {
