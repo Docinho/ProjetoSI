@@ -6,6 +6,6 @@ app.service("PackageService", function($http, BASE_SERVER_URL) {
 
     this.createPackage = (produto, lote) => {
         let id = produto.id;
-        return $http.post("/api/product/" + id + "/lote/", JSON.stringify(lote))
+        return $http.post("/api/product/" + id + "/pack/", JSON.stringify(lote))
     }
 });
