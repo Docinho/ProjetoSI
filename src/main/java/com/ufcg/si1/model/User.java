@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 @Entity
-public class User implements Serializable{
+public class User implements Serializable {
 
 	@Transient
 	private static final long serialVersionUID = 1L;
@@ -22,9 +22,9 @@ public class User implements Serializable{
 		this.login = login;
 		this.password = password;
 	}
-	
+
 	public User() {
-		
+
 	}
 
 	public Long getId() {

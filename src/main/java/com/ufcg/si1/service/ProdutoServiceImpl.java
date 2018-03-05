@@ -1,6 +1,5 @@
 package com.ufcg.si1.service;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,12 +45,6 @@ public class ProdutoServiceImpl implements ProductService {
 	@Override
 	public int size() {
 		return productRep.findAll().size();
-	}
-
-	@Override
-	public Iterator<Product> getIterator() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

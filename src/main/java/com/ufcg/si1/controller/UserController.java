@@ -27,15 +27,9 @@ public class UserController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/user/")
 	public ResponseEntity<User> cadastrarCliente(@RequestBody User user) {
-		boolean userExists = false;
+		User userLogin = userService.findByLogin(user.getLogin());
 
-		for (User u : userService.findAllUsers()) {
-			if (u.getLogin().equals(user.getLogin())) {
-				userExists = true;
-			}
-		}
-
-		if (userExists) {
+		if (userLogin != null) {
 			return new ResponseEntity(new CustomErrorType("Já existe um usuario com o login " + user.getLogin()),
 					HttpStatus.CONFLICT);
 		}
@@ -54,10 +48,11 @@ public class UserController {
 
 	@RequestMapping(method = RequestMethod.PUT, value = "/user/")
 	public ResponseEntity<User> loginUser(@RequestBody User user) {
-		User userLogin = userService.findById(user.getId());
+		User userLogin = userService.findByLogin(user.getLogin());
 
 		if (userLogin != null) {
 			userLogado = userLogin;
+			System.out.println("Logado como " + user.getLogin());
 			return new ResponseEntity<User>(userLogado, HttpStatus.ACCEPTED);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);

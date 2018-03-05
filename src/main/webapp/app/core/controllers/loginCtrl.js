@@ -3,7 +3,6 @@ app.controller("LoginCtrl", function($scope, $uibModal, toastr, UserService, BAS
         UserService.login(userParams)
             .then(function successCallback(result) {
                 toastr.success("Login feito com sucesso");
-                $uibModalInstance.close(201);
             }).catch(function errorCallback(error) {
                 toastr.error("Erro ao fazer login");
                 console.log(error);

@@ -2,7 +2,6 @@ package com.ufcg.si1.controller;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,13 +24,13 @@ import exceptions.ObjetoInvalidoException;
 @CrossOrigin
 @RequestMapping("/api")
 public class PackController {
-	
+
 	@Autowired
 	ProductService productService;
-	
+
 	@Autowired
 	PackService packService;
-	
+
 	@RequestMapping(value = "/product/{id}/pack/", method = RequestMethod.POST)
 	public ResponseEntity<?> criarLote(@PathVariable("id") Long productId, @RequestBody Pack pack) {
 		Product product = productService.findById(productId);
@@ -42,7 +41,8 @@ public class PackController {
 					HttpStatus.NOT_FOUND);
 		}
 
-//		Lote lote = loteService.saveLote(new Lote(product, loteDTO.getNumeroDeItens(), loteDTO.getDataDeValidade()));
+		// Lote lote = loteService.saveLote(new Lote(product,
+		// loteDTO.getNumeroDeItens(), loteDTO.getDataDeValidade()));
 		pack.setProduct(product);
 		product.getPacks().add(pack);
 		packService.savePack(pack);

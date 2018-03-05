@@ -23,11 +23,9 @@ import exceptions.ObjetoInvalidoException;
 @CrossOrigin
 @RequestMapping("/api")
 public class ProductController {
-	
 
 	@Autowired
 	ProductService productService;
-	
 
 	@RequestMapping(value = "/product/", method = RequestMethod.GET)
 	public ResponseEntity<List<Product>> listProducts() {
@@ -57,8 +55,10 @@ public class ProductController {
 		try {
 			product.setSituation(Product.UNAVAILABLE);
 		} catch (ObjetoInvalidoException e) {
-			return new ResponseEntity(new CustomErrorType("Error: Produto" + product.getName() + " do fabricante "
-					+ product.getManufacturer() + " alguma coisa errada aconteceu!"), HttpStatus.NOT_ACCEPTABLE);
+			return new ResponseEntity(
+					new CustomErrorType("Error: Produto" + product.getName() + " do fabricante "
+							+ product.getManufacturer() + " alguma coisa errada aconteceu!"),
+					HttpStatus.NOT_ACCEPTABLE);
 		}
 
 		productService.saveProduct(product);

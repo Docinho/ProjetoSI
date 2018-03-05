@@ -70,4 +70,4 @@ public class Category implements Serializable {
 	public void setDiscount(int discount) {
 		this.discount = discount;
 	}
-	}
+}

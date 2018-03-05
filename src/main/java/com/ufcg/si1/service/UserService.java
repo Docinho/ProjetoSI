@@ -19,5 +19,7 @@ public interface UserService {
 	public int size();
 
 	public boolean doesUserExists(User user);
+	
+	public User findByLogin(String login);
 
 }

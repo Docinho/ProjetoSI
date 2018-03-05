@@ -1,6 +1,5 @@
 package com.ufcg.si1.service;
 
-import java.util.Iterator;
 import java.util.List;
 
 import com.ufcg.si1.model.Pack;
@@ -47,11 +46,4 @@ public class PackServiceImpl implements PackService {
 	public int size() {
 		return packRepository.findAll().size();
 	}
-
-	@Override
-	public Iterator<Pack> getIterator() {
-		return null;
-	}
-
-
 }

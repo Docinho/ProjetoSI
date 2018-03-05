@@ -54,8 +54,7 @@ public class Product implements Serializable {
 	@Transient
 	public static final int UNAVAILABLE = 2;
 
-	public Product(Long id, String name, String barCode, String manufacturer, Category category,
-			boolean isExpired) {
+	public Product(Long id, String name, String barCode, String manufacturer, Category category, boolean isExpired) {
 		this.id = id;
 		this.name = name;
 		this.price = new BigDecimal(0);

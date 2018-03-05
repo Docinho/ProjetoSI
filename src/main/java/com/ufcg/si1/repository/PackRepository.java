@@ -5,8 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ufcg.si1.model.Pack;
 
-
 @Repository
-public interface PackRepository extends JpaRepository<Pack, Long>{
+public interface PackRepository extends JpaRepository<Pack, Long> {
 
 }

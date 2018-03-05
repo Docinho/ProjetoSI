@@ -20,13 +20,13 @@ app.controller("categoriaCtrl", function ($scope, $http, toastr, ProductService)
 
         
         if(isNaN(discount)) {
-           toastr.error("Selecione um discount antes de alterar!");
+           toastr.error("Selecione um desconto antes de alterar!");
 
         } else {
             $http({method:'GET', url:"/api/category/"+ category.id +"/" + discount})
             .then(function(answer){
                     category.discount = answer.data.discount;
-                    toastr.success("discount alterado com sucesso!");
+                    toastr.success("Desconto alterado com sucesso!");
             }, function(answer){
              console.log("Falha " + answer);
                }); 

@@ -9,8 +9,8 @@ import com.ufcg.si1.model.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
-	
-	@Query(value="Select u from Category u where u.name=:pname")
+
+	@Query(value = "Select u from Category u where u.name=:pname")
 	public Category findByName(@Param("pname") String name);
 
 }

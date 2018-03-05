@@ -1,6 +1,5 @@
 package com.ufcg.si1.service;
 
-import java.util.Iterator;
 import java.util.List;
 
 import com.ufcg.si1.model.Pack;
@@ -16,8 +15,6 @@ public interface PackService {
 	void deletePackById(long id);
 
 	int size();
-
-	Iterator<Pack> getIterator();
 
 	Pack savePack(Pack pack);
 }
