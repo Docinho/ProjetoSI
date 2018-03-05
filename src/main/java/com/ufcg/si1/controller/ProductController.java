@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.ufcg.si1.model.Category;
 import com.ufcg.si1.model.Product;
+import com.ufcg.si1.service.CategoryService;
 import com.ufcg.si1.service.ProductService;
 import com.ufcg.si1.util.CustomErrorType;
 
@@ -26,6 +28,9 @@ public class ProductController {
 
 	@Autowired
 	ProductService productService;
+	
+	@Autowired
+	CategoryService categoryService;
 
 	@RequestMapping(value = "/product/", method = RequestMethod.GET)
 	public ResponseEntity<List<Product>> listProducts() {
@@ -38,7 +43,17 @@ public class ProductController {
 
 	@RequestMapping(value = "/product/", method = RequestMethod.POST)
 	public ResponseEntity<Product> createProduct(@RequestBody Product product, UriComponentsBuilder ucBuilder) {
-
+		
+		Category category = product.getCategory();
+		Category categoryAux = categoryService.findCategoryByName(category.getName());
+		product.setCategory(null);
+		
+		if(categoryAux != null) {
+			product.setCategory(categoryAux);
+		} else {
+			product.setCategory(category);
+		}
+		
 		boolean productExists = false;
 
 		for (Product p : productService.findAllProducts()) {

@@ -38,7 +38,7 @@ public class Product implements Serializable {
 
 	@JsonBackReference
 	@ManyToOne(cascade = { CascadeType.ALL })
-	@JoinColumn(name = "Categoria_id")
+	@JoinColumn(name = "Category_id")
 	private Category category;
 
 	private boolean isExpired;
