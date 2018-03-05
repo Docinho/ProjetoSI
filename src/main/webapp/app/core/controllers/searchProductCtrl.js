@@ -27,8 +27,7 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, ProductService,
             ariaLabelledBy: 'Adicionar Produto',
             ariaDescribedBy: 'Formulario para adição de um novo produto',
             templateUrl: BASE_TEMPLATE_PATH + 'createProductView.html',
-            controller: 'CreateProductCtrl',
-            controllerAs: 'cpCtrl'
+            controller: 'CreateProductCtrl'
         });
 
         modalInstance.result.then(result => {
@@ -42,14 +41,14 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, ProductService,
         });
     };
 
-    $scope.openPriceOfProdutoDialog = function(product) {
+    $scope.openUpdateProductDialog = function(product) {
         var modalInstance = $uibModal.open({
             ariaLabelledBy: 'Atribuir preço ao Produto',
             ariaDescribedBy: 'Formulario para Atribuir preço ao Produto',
             templateUrl: BASE_TEMPLATE_PATH + 'updateProductView.html',
             controller: 'UpdateProductCtrl',
             resolve: {
-                produto: function () {
+                product: function () {
                     return angular.copy(product);
                 }
             }
@@ -70,7 +69,7 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, ProductService,
             templateUrl: BASE_TEMPLATE_PATH + 'sellProductView.html',
             controller: 'SellProductCtrl',
             resolve: {
-                produto: function () {
+                product: function () {
                     return angular.copy(product);
                 }
             }
@@ -92,7 +91,7 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, ProductService,
             templateUrl: BASE_TEMPLATE_PATH + 'createPackageView.html',
             controller: 'CreatePackageCtrl',
             resolve: {
-                produto: function () {
+                product: function () {
                     return angular.copy(product);
                 }
             }

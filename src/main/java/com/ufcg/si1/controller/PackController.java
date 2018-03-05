@@ -24,17 +24,17 @@ import exceptions.ObjetoInvalidoException;
 @RestController
 @CrossOrigin
 @RequestMapping("/api")
-public class LoteController {
+public class PackController {
 	
 	@Autowired
-	ProductService produtoService;
+	ProductService productService;
 	
 	@Autowired
-	PackService loteService;
+	PackService packService;
 	
-	@RequestMapping(value = "/produto/{id}/lote/", method = RequestMethod.POST)
+	@RequestMapping(value = "/product/{id}/pack/", method = RequestMethod.POST)
 	public ResponseEntity<?> criarLote(@PathVariable("id") Long produtoId, @RequestBody Pack lote) {
-		Product product = produtoService.findById(produtoId);
+		Product product = productService.findById(produtoId);
 
 		if (product == null) {
 			return new ResponseEntity(
@@ -45,14 +45,14 @@ public class LoteController {
 //		Lote lote = loteService.saveLote(new Lote(product, loteDTO.getNumeroDeItens(), loteDTO.getDataDeValidade()));
 		lote.setProduct(product);
 		product.setPack(lote);
-		loteService.savePack(lote);
+		packService.savePack(lote);
 
 		try {
 			if (product.getSituation() == Product.UNAVAILABLE) {
 				if (lote.getItemNumber() > 0) {
 					Product produtoDisponivel = product;
 					produtoDisponivel.situacao = Product.AVAILABLE;
-					produtoService.updateProduct(produtoDisponivel);
+					productService.updateProduct(produtoDisponivel);
 				}
 			}
 		} catch (ObjetoInvalidoException e) {
@@ -62,9 +62,9 @@ public class LoteController {
 		return new ResponseEntity<>(lote, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/lote/", method = RequestMethod.GET)
+	@RequestMapping(value = "/pack/", method = RequestMethod.GET)
 	public ResponseEntity<List<Pack>> listAllLotess() {
-		List<Pack> lotes = loteService.findAllPacks();
+		List<Pack> lotes = packService.findAllPacks();
 		return new ResponseEntity<List<Pack>>(lotes, HttpStatus.OK);
 	}
 

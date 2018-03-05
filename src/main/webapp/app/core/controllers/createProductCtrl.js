@@ -1,7 +1,7 @@
-app.controller("CreateProductCtrl", function ($uibModalInstance, toastr, ProductService) {
+app.controller("CreateProductCtrl", function ($scope, $uibModalInstance, toastr, ProductService) {
 
-    this.createProduct = function (product) {
-        product.preco = 0;
+    $scope.createProduct = function (product) {
+        product.price = 0;
         ProductService.createProduct(product).then(function success(response) {
             if (response.status === 201) {
                 toastr.success("Produto adicionado com sucesso!");
@@ -13,7 +13,7 @@ app.controller("CreateProductCtrl", function ($uibModalInstance, toastr, Product
         });;
     };
 
-    this.cancel = function () {
+    $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
 });

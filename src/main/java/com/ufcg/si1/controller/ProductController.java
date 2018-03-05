@@ -22,7 +22,7 @@ import exceptions.ObjetoInvalidoException;
 @RestController
 @CrossOrigin
 @RequestMapping("/api")
-public class ProdutoController {
+public class ProductController {
 	
 
 	@Autowired
