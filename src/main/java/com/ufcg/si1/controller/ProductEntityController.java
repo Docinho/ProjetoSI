@@ -49,8 +49,8 @@ public class ProductEntityController {
 		return new ResponseEntity<List<ProductEntity>>(products, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/product/", method = RequestMethod.POST)
-	public ResponseEntity<ProductEntity> createProduct(@RequestBody Product product, String category, UriComponentsBuilder ucBuilder) {
+	@RequestMapping(value = "/product/{category}", method = RequestMethod.POST)
+	public ResponseEntity<ProductEntity> createProduct(@RequestBody Product product, @PathVariable("category") String category, UriComponentsBuilder ucBuilder) {
 		String categoryName = category;
 		System.out.println(product);
 		System.out.println(categoryName);
