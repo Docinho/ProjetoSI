@@ -41,10 +41,10 @@ public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {/
 //	@JsonManagedReference
 //	private List<Pack> unavailablePacks;
 	
-	@OneToOne(mappedBy = "entity")
+	@OneToOne(cascade = {CascadeType.ALL})
 	private Product product;
 	
-	@OneToOne
+	@OneToOne(cascade = {CascadeType.ALL})
 	private Category category;
 	
 	public ProductEntity (Product prod, Category cat) {
@@ -124,7 +124,7 @@ public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {/
 	}
 	
 	public int getSituation() {
-		return 0;
+		return 2;
 	}
 
 	public void addPack(Pack pack) {

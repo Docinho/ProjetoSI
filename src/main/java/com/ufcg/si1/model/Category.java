@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -22,18 +23,40 @@ public class Category implements Serializable, CategoryPlan {
 	private Long id;
 	private String name;
 	private int discount;
+	
+	@Transient
+	private static final int DESCONTO_ZERO = 0;
+	
+	@Transient
+	private static final int DESCONTO_UM = 10;
+	
+	@Transient
+	private static final int DESCONTO_DOIS = 25;
+	
+	@Transient
+	private static final int DESCONTO_TRES = 50;
+	
+	@OneToOne
+	private ProductEntity entity;
 
 	public Category() {
 	}
 
 	public Category(String name, int discount) {
 		this.name = name;
-		this.discount = discount;
+		if (discount == 0) {
+			this.discount = Category.DESCONTO_ZERO;
+		} else if (discount == 1) {
+			this.discount = Category.DESCONTO_UM;
+		} else if (discount == 2) {
+			this.discount = Category.DESCONTO_DOIS;
+		} else {
+			this.discount = Category.DESCONTO_TRES;
+		}
 	}
 
 	public Category(String name) {
 		this.name = name;
-
 	}
 
 	public Long getId() {

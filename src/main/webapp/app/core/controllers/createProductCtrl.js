@@ -2,6 +2,7 @@ app.controller("CreateProductCtrl", function ($scope, $uibModalInstance, toastr,
 
     $scope.createProduct = function (product, category) {
         product.price = 0;
+        console.log(product);
         ProductService.createProduct(product, category).then(function success(response) {
             if (response.status === 201) {
                 toastr.success("Produto adicionado com sucesso!");

@@ -50,12 +50,15 @@ public class ProductEntityController {
 	}
 	
 	@RequestMapping(value = "/product/", method = RequestMethod.POST)
-	public ResponseEntity<ProductEntity> createProduct(@RequestBody Product product, Category category, UriComponentsBuilder ucBuilder) {
+	public ResponseEntity<ProductEntity> createProduct(@RequestBody Product product, String category, UriComponentsBuilder ucBuilder) {
+		String categoryName = category;
+		System.out.println(product);
+		System.out.println(categoryName);
 		
-		Category categoryAux = catService.findCategoryByName(category.getCategoryName());
+		Category categoryAux = catService.findCategoryByName(categoryName);
 		
 		if(categoryAux == null) {
-			categoryAux = new Category(category.getCategoryName());
+			categoryAux = new Category(categoryName, 0);
 		} 
 		
 		boolean productExists = prodEntService.productExists(product.getBarCode());
@@ -64,9 +67,10 @@ public class ProductEntityController {
 			return new ResponseEntity(new CustomErrorType("O produto " + product.getProductName() + " do fabricante "
 					+ product.getManufacturer() + " ja esta cadastrado!"), HttpStatus.CONFLICT);
 		}
-
-		ProductEntity newProduct = new ProductEntity(product, category);
-
+		
+		ProductEntity newProduct = new ProductEntity(product, categoryAux);
+		
+		catService.addCategory(categoryAux);
 		prodEntService.saveProduct(newProduct);
 		System.out.println("Cadastrou o produto " + newProduct.getProductName());
 
