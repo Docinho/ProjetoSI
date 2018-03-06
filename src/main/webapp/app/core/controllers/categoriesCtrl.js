@@ -1,4 +1,4 @@
-app.controller("categoriaCtrl", function ($scope, $http, toastr, ProductService) {
+app.controller("categoriesCtrl", function ($scope, $http, toastr, ProductService) {
     $scope.categories = [];
 
 

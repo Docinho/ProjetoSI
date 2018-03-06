@@ -13,7 +13,7 @@ import javax.persistence.Transient;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-public class Category implements Serializable {
+public class Category implements Serializable, CategoryPlan {
 
 	@Transient
 	private static final long serialVersionUID = 1L;
@@ -22,9 +22,6 @@ public class Category implements Serializable {
 	private Long id;
 	private String name;
 	private int discount;
-	@JsonManagedReference
-	@OneToMany(mappedBy = "category", cascade = { CascadeType.ALL })
-	private List<Product> product;
 
 	public Category() {
 	}
@@ -39,14 +36,6 @@ public class Category implements Serializable {
 
 	}
 
-	public List<Product> getProduct() {
-		return product;
-	}
-
-	public void setProduct(List<Product> product) {
-		this.product = product;
-	}
-
 	public Long getId() {
 		return id;
 	}
@@ -55,11 +44,11 @@ public class Category implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
+	public String getCategoryName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setCategoryName(String name) {
 		this.name = name;
 	}
 

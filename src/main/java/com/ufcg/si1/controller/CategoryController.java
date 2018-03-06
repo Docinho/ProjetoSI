@@ -19,7 +19,7 @@ import com.ufcg.si1.util.CustomErrorType;
 @RestController
 @CrossOrigin
 @RequestMapping("/api")
-public class CategoriaController {
+public class CategoryController {
 
 	@Autowired
 	ProductService productService;
@@ -38,7 +38,7 @@ public class CategoriaController {
 	 * @return
 	 */
 	@RequestMapping(value = "/category/{id}/{discount}", method = RequestMethod.GET)
-	public ResponseEntity<Category> difineDiscount(@PathVariable Long id, @PathVariable int discount) {
+	public ResponseEntity<Category> defineDiscount(@PathVariable Long id, @PathVariable int discount) {
 		Category category = categoryService.findById(id);
 		if (category != null) {
 
@@ -48,7 +48,7 @@ public class CategoriaController {
 			return new ResponseEntity<Category>(category, HttpStatus.CREATED);
 
 		} else {
-			return new ResponseEntity(new CustomErrorType("Unable to upate. Produto with id " + id + " not found."),
+			return new ResponseEntity(new CustomErrorType("Unable to upate. Product with id " + id + " not found."),
 					HttpStatus.NOT_FOUND);
 		}
 

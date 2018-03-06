@@ -4,7 +4,7 @@
  */
 app.service("ProductService", function($http, BASE_SERVER_URL) {
 
-    this.createProduct = (product) => {
+    this.createProduct = (product, category) => {
         return $http.post("/api/product/", JSON.stringify(product));
     }
 

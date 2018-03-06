@@ -1,32 +1,32 @@
 package com.ufcg.si1.model.DTO;
 
-public class LoteDTO {
+public class PackDTO {
 
-	private int numeroDeItens;
-	private String dataDeValidade;
+	private int itemNumber;
+	private String expirationDate;
 
-	public LoteDTO() {
+	public PackDTO() {
 	}
 
-	public LoteDTO(int numeroDeItens, String dataDeValidade) {
+	public PackDTO(int itemNumber, String expirationDate) {
 		super();
-		this.numeroDeItens = numeroDeItens;
-		this.dataDeValidade = dataDeValidade;
+		this.itemNumber = itemNumber;
+		this.expirationDate = expirationDate;
 	}
 
-	public int getNumeroDeItens() {
-		return numeroDeItens;
+	public int getItemNumber() {
+		return itemNumber;
 	}
 
-	public void setNumeroDeItens(int numeroDeItens) {
-		this.numeroDeItens = numeroDeItens;
+	public void setItemNumber(int itemNumber) {
+		this.itemNumber = itemNumber;
 	}
 
-	public String getDataDeValidade() {
-		return dataDeValidade;
+	public String getExpirationDate() {
+		return expirationDate;
 	}
 
-	public void setDataDeValidade(String dataDeValidade) {
-		this.dataDeValidade = dataDeValidade;
+	public void setExpirationDate(String expirationDate) {
+		this.expirationDate = expirationDate;
 	}
 }

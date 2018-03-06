@@ -15,7 +15,6 @@ exceptions/Rep.class
 com/ufcg/si1/service/ProdutoServiceImpl.class
 com/ufcg/si1/repository/ProductRepository.class
 com/ufcg/si1/service/PackService.class
-com/ufcg/si1/model/DTO/LoteDTO.class
 com/ufcg/si1/service/PackServiceImpl.class
 com/ufcg/si1/repository/UserRepository.class
 com/ufcg/si1/service/UserServiceImpl.class
