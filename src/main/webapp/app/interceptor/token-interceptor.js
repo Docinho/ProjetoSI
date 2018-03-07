@@ -10,6 +10,7 @@ app.factory("tokenInterceptor", function($q, $location){
 
 			if(rejection.status == 500) {
 				$location.path("/");
+
 			}
 			return $q.reject(rejection);
 		}
