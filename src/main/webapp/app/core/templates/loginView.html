@@ -13,8 +13,60 @@
     
             Ainda não tem uma conta? Registre-se <a ng-click="openSignUpDialog()">aqui</a>.
             <br/>
-             {{token}}
+              <br/>
+                <br/>
+                  <br/>
+<button ng-click="listProducts()" type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#produtosmodal">
+  Consultar produtos disponíveis no sistema
+</button>             
+
         
         </div>
     
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="produtosmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLabel">→ Produtos disponíveis no sistema</h2>
+
+      </div>
+      <div class="modal-body">
+            
+
+        <div class="container-fluid">
+
+    <table class="table table-striped">
+        <tr>
+            <th ><a>Nome</a></th>
+            <th ><a>Preço</a></th>
+            <th><a>Disponibilidade</a></th>
+        </tr>
+    
+        <tr ng-repeat="i in products">
+            <td class="text-center">{{i.name}}</td>
+            <td class="text-center">{{i.price}}</td>
+            <td ng-if="i.situation == 2" class="text-center">INDISPONIVEL</td>
+             <td ng-if="i.situation == 1" class="text-center">DISPONÍVEL</td>
+
+        </tr>
+    </table>
+</div>
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
     </div>  

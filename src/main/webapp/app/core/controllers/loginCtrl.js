@@ -1,5 +1,22 @@
-app.controller("LoginCtrl", function($scope, $uibModal, $location, toastr, UserService, BASE_TEMPLATE_PATH) {
+app.controller("LoginCtrl", function($scope, $http, $uibModal, $location, toastr, UserService, BASE_TEMPLATE_PATH) {
    $scope.token = "";
+
+
+   $scope.products = [];
+   
+    $scope.listProducts = function() {
+    
+        $http({method:'GET', url:'/userProducts'})
+            .then(function(answer){
+                $scope.products = answer.data;
+            }, function(answer){
+                console.log("Fez erroneamente o GET dos produtos para o usuário");
+            });
+                    
+   }
+
+
+
     $scope.loginUser = (userParams) => {
         UserService.login(userParams)
             .then(function successCallback(result) {
