@@ -19,7 +19,7 @@ import com.ufcg.si1.util.CustomErrorType;
 @RestController
 @CrossOrigin
 @RequestMapping("/api")
-public class CategoriaController {
+public class CategoryController {
 
 	@Autowired
 	ProductService productService;

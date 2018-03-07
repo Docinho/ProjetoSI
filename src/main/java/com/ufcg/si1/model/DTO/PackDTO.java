@@ -1,14 +1,14 @@
 package com.ufcg.si1.model.DTO;
 
-public class LoteDTO {
+public class PackDTO {
 
 	private int numeroDeItens;
 	private String dataDeValidade;
 
-	public LoteDTO() {
+	public PackDTO() {
 	}
 
-	public LoteDTO(int numeroDeItens, String dataDeValidade) {
+	public PackDTO(int numeroDeItens, String dataDeValidade) {
 		super();
 		this.numeroDeItens = numeroDeItens;
 		this.dataDeValidade = dataDeValidade;
