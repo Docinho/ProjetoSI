@@ -37,14 +37,14 @@ public class Product implements Serializable {
 	private String manufacturer;
 
 	@JsonBackReference
-	@ManyToOne(cascade = { CascadeType.ALL })
+	@ManyToOne( cascade = { CascadeType.ALL })
 	@JoinColumn(name = "Category_id")
 	private Category category;
 
 	private boolean isExpired;
 
 	@JsonManagedReference
-	@OneToMany(mappedBy = "product")
+	@OneToMany(mappedBy = "product", cascade = { CascadeType.ALL })
 	private List<Pack> packs;
 
 	public int situation; // usa variaveis estaticas abaixo

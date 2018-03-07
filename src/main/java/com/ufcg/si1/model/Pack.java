@@ -2,10 +2,12 @@ package com.ufcg.si1.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
@@ -20,7 +22,7 @@ public class Pack implements Serializable {
 	@GeneratedValue
 	private Long id;
 	@JsonBackReference
-	@OneToOne
+	@ManyToOne( cascade = { CascadeType.ALL })
 	@JoinColumn(name = "Product_id")
 	private Product product;
 	private int itemNumber;
