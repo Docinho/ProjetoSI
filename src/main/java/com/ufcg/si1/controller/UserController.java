@@ -17,7 +17,7 @@ import com.ufcg.si1.util.CustomErrorType;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api")
+//@RequestMapping("/api")
 public class UserController {
 
 	@Autowired

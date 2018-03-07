@@ -1,4 +1,4 @@
-app.controller("SearchProductCtrl", function ($scope, $uibModal, ProductService, toastr, BASE_TEMPLATE_PATH) {
+app.controller("SearchProductCtrl", function ($scope, $http, $uibModal, ProductService, toastr, BASE_TEMPLATE_PATH) {
 
     // $scope.title = "Search Product";
 
@@ -13,6 +13,8 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, ProductService,
     }
 
     var loadProductsList = () => {
+        token = localStorage.getItem("userToken");
+        $http.defaults.headers.common.Authorization = 'Bearer ' + token;
         ProductService.getAllProducts()
             .then(response => {
                 $scope.productsList = response.data;

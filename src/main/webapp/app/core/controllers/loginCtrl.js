@@ -1,8 +1,12 @@
-app.controller("LoginCtrl", function($scope, $uibModal, toastr, UserService, BASE_TEMPLATE_PATH) {
+app.controller("LoginCtrl", function($scope, $uibModal, $location, toastr, UserService, BASE_TEMPLATE_PATH) {
+   $scope.token = "";
     $scope.loginUser = (userParams) => {
         UserService.login(userParams)
             .then(function successCallback(result) {
                 toastr.success("Login feito com sucesso");
+                $scope.token = result.data.token;
+                localStorage.setItem("userToken", result.data.token);
+                $location.path("/products");
             }).catch(function errorCallback(error) {
                 toastr.error("Erro ao fazer login");
                 console.log(error);
