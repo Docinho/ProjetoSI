@@ -18,9 +18,11 @@ app.controller("CreatePackageCtrl", function ($scope, $uibModalInstance, toastr,
     $scope.submit = (itemNumber,expirationDate) => {
         
         var package = {
-            expirationDate: expirationDate.getDay() + "/" + (expirationDate.getMonth() + 1) + "/" + expirationDate.getFullYear(),
+            expirationDate: expirationDate.getDate() + "/" + (expirationDate.getMonth() + 1) + "/" + expirationDate.getFullYear(),
             itemNumber: itemNumber
         }
+
+        console.log(package.expirationDate);
 
         PackageService.createPackage($scope.product.id, package)
             .then(function success(response) {

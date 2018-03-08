@@ -1,6 +1,7 @@
 package com.ufcg.si1.controller;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,6 @@ public class ProductEntityController {
 	@RequestMapping(value = "/product/{category}", method = RequestMethod.POST)
 	public ResponseEntity<ProductEntity> createProduct(@RequestBody Product product, @PathVariable("category") String category, UriComponentsBuilder ucBuilder) {
 		String categoryName = category;
-		System.out.println(product);
 		System.out.println(categoryName);
 		
 		Category categoryAux = catService.findCategoryByName(categoryName);
@@ -89,8 +89,8 @@ public class ProductEntityController {
 		return new ResponseEntity<ProductEntity>(p, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/product/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<?> updateProduct(@PathVariable("id") Long id, String newName, BigDecimal newPrice) {
+	@RequestMapping(value = "/product/{id}/{newName}", method = RequestMethod.PUT)
+	public ResponseEntity<?> updateProduct(@PathVariable("id") Long id, @PathVariable("newName") String newName, @RequestBody BigDecimal newPrice) {
 
 		prodEntService.update(id, newName, newPrice); // REFACTOR TO FIX COHESION
 		ProductEntity currentProduct = prodEntService.findById(id);
@@ -100,21 +100,23 @@ public class ProductEntityController {
 	@RequestMapping(value = "/product/{id}/pack/", method = RequestMethod.POST)
 	public ResponseEntity<?> createPack(@PathVariable("id") Long productId, @RequestBody Pack pack) {
 		ProductEntity prod = prodEntService.findById(productId);
-
 		if (prod == null) {
 			return new ResponseEntity(
 					new CustomErrorType("Unable to create pack. Product with id " + productId + " not found."),
 					HttpStatus.NOT_FOUND);
 		}
-
-		prod.addPack(pack);
-		return new ResponseEntity<Pack>(pack, HttpStatus.CREATED);
+		
+		pack.setProduct(prod);
+		packService.savePack(pack);
+		prodEntService.addPackToProduct(prod.getId(), pack);
+		System.out.println(prod.toString());
+		return new ResponseEntity<ProductEntity>(prod, HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value = "/pack/", method = RequestMethod.GET)
-	public ResponseEntity<List<Pack>> listAllLotes() {
-		List<Pack> lotes = prodEntService.findAllPacks();
-		return new ResponseEntity<List<Pack>>(lotes, HttpStatus.OK);
+	public ResponseEntity<List<Pack>> listAllPacks() {
+		List<Pack> packs = packService.findAllPacks();
+		return new ResponseEntity<List<Pack>>(packs, HttpStatus.OK);
 	}
 
 }

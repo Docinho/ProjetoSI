@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ufcg.si1.model.Pack;
-import com.ufcg.si1.model.Product;
 import com.ufcg.si1.model.ProductEntity;
 import com.ufcg.si1.repository.ProductEntityRepository;
 
@@ -19,7 +18,15 @@ public class ProductEntityServiceImpl {
 	private ProductEntityRepository prodEntRepository;
 
 	public List<ProductEntity> findAllProducts() {
-		return prodEntRepository.findAll();
+		System.out.println("------------------------");
+		System.out.println("------ALL-PRODUCTS------");
+		System.out.println("------------------------");
+		List<ProductEntity> products = prodEntRepository.findAll();
+		for (ProductEntity productEntity : products) {
+			System.out.println(productEntity.toString());
+		}
+		
+		return products;
 	}
 
 	public ProductEntity findById(Long id) {
@@ -53,6 +60,14 @@ public class ProductEntityServiceImpl {
 		}
 		
 		return productExists;
+	}
+	
+	public void addPackToProduct(Long productId, Pack pack) {
+		ProductEntity prod = findById(productId);
+		if (prod != null) {
+			prod.addPack(pack);
+			prodEntRepository.save(prod);
+		}
 	}
 
 	public void deleteProduct(Long id) {

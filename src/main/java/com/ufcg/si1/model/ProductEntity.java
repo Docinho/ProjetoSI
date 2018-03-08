@@ -9,16 +9,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import exceptions.ObjetoInvalidoException;
 
 @Entity
 public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {//, PackPlan {
@@ -50,10 +45,13 @@ public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {/
 	
 	private int quantity;
 	
+	private int situation;
+	
 	public ProductEntity (Product prod, Category cat) {
 		this.product = prod;
 		this.category = cat;
 		this.quantity = 0;
+		this.situation = UNAVAILABLE;
 	}
 	
 	public ProductEntity() {
@@ -131,17 +129,69 @@ public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {/
 		product.update(newName, newPrice);
 	}
 	
-	public int getSituation() {
-		return 2;
+	public int updateSituation() {
+		int situation = UNAVAILABLE;
+		for (Pack pack : packs) {
+			System.out.println(pack.toString());
+			if (pack.isAvailable() == AVAILABLE) {
+				situation = AVAILABLE;
+			}
+		}
+		return situation;
 	}
 
 	public void addPack(Pack pack) {
-		packs.add(pack);
+		this.packs.add(pack);
+		if (pack.isAvailable() == 1) {
+			this.quantity += pack.getItemNumber();
+		}
 		Collections.sort(packs);
+		this.situation = updateSituation();
+	}
+	
+	public int getSituation() {
+		return this.situation;
 	}
 	
 	public List<Pack> getPacks() {
-		return packs;
+		return this.packs;
+	}
+	
+	public int makeSell(int quantity) {
+		int i = 0;
+		int madeSell = 0;
+		if (this.quantity >= quantity) {
+			int maxAble = 0;
+			madeSell = 1;
+			while (i < this.packs.size()) {
+				Pack thisPack = packs.get(i);
+				if (thisPack.isAvailable() == AVAILABLE) {
+					maxAble = thisPack.getItemNumber();
+					this.quantity -= maxAble;
+					quantity -= maxAble;
+					madeSell = thisPack.makeSell(maxAble, this.getPrice());
+				}
+				i++;
+			}
+		} 
+		return madeSell;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+	
+	public String toString() {
+		String r = "---PRODUTO---\nID: " + getId();
+		r+= "\nNome: " + getProductName();
+		r+= "\nQuantidade: " + getQuantity();
+		r+= "\nSituacao: " + getSituation();
+		r += "---LOTES---";
+		for (int i = 0; i < this.packs.size(); i++) {
+			r += "\n" + this.packs.get(i).toString();
+		}
+		
+		return r;
 	}
 	
 }

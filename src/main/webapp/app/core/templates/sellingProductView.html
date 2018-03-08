@@ -8,9 +8,11 @@
             <h4 id="product-name">
               <a href="#">{{product.productName}}</a>
             </h4>
-            <h5 id="product-price">
-              {{product.price | currency:"R$"}} <!-- TODO Add price format -->
-            </h5>
+            <div ng-if="product.situation == 1">
+              <h5 id="product-price">
+                {{product.price | currency:"R$"}} <!-- TODO Add price format -->
+              </h5>
+            </div>
             <h5 id="product-situation">
               {{product.situation | availableFilter}}
             </h5>
