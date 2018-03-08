@@ -2,7 +2,7 @@
         <h3 class="modal-title" id="modal-title">Criar Novo Desconto</h3>
     </div>
     <div class="modal-body" id="modal-body">
-        <form name="createDiscount">
+        <form name="createDiscountForm">
             <div>
                 <label>Categoria:</label>
                 <select ng-model="category" ng-required="true" ng-options="cat.categoryName for cat in categories" class="form-control">
@@ -19,7 +19,7 @@
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary" type="button" 
-            ng-disabled="createDiscount.$invalid"
+            ng-disabled="createDiscountForm.$invalid"
             ng-click="createDiscount(category,discount)"> Salvar </button>
         <button class="btn btn-danger" type="button" ng-click="cancel()">Cancelar</button>
     </div>

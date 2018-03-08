@@ -9,30 +9,40 @@ import org.springframework.stereotype.Service;
 import com.ufcg.si1.model.Category;
 import com.ufcg.si1.repository.CategoryRepository;
 
-@Service
+@Service("CategoryService")
 public class CategoryServiceImpl implements CategoryService{
 	
 	@Autowired
-	CategoryRepository category;
+	CategoryRepository categoryRep;
 	
 	public Category findById(Long id) {
-		return category.findOne(id);
+		return categoryRep.findOne(id);
 	}
 	
 	public List<Category> listCategories() {
-		return category.findAll();
+		System.out.println();
+		System.out.println("--------------------");
+		System.out.println("-----CATEGORIES-----");
+		System.out.println("--------------------");
+		
+		List<Category> all = categoryRep.findAll();
+		for (Category category : all) {
+			System.out.println(category.toString());
+		}
+		
+		return all;
 	}
 	
 	public Category addCategory(Category categoria) {
-		return category.save(categoria);
+		return categoryRep.save(categoria);
 	}
 	
 	public Category updateCategory(Category categoria) {
-		return category.save(categoria);
+		return categoryRep.save(categoria);
 	}
 	
 	public Category findCategoryByName(String nome) {
-		return category.findByName(nome);
+		return categoryRep.findByName(nome);
 	}
 
 }

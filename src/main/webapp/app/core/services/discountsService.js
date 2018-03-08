@@ -7,7 +7,7 @@ app.service("DiscountsService", function($http) {
     }
 
     this.createDiscount = (category, discount) => {
-        return $http.put(this.url + category.id + "/" + discount);
+        return $http.put(this.url + category.id, discount);
     }
 
 })

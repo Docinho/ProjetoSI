@@ -9,10 +9,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -34,13 +36,11 @@ public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {/
 	@OneToMany(mappedBy = "entity")
 	private List<Pack> packs;
 	
-//	@JsonManagedReference
-//	private List<Pack> unavailablePacks;
-	
 	@OneToOne(cascade = {CascadeType.ALL})
 	private Product product;
 	
-	@OneToOne(cascade = {CascadeType.ALL})
+	@JsonBackReference
+	@ManyToOne(cascade = {CascadeType.ALL})
 	private Category category;
 	
 	private int quantity;
@@ -100,7 +100,15 @@ public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {/
 
 	@Override
 	public BigDecimal getPrice() {
-		return product.getPrice();
+		BigDecimal temp1 = product.getPrice();
+		BigDecimal temp2 = product.getPrice();
+		temp1 = temp1.multiply(new BigDecimal(100));
+		temp2 = temp1.multiply(new BigDecimal(getDiscount()));
+		
+		temp1 = temp1.subtract(temp2);
+		temp1 = temp1.divide(new BigDecimal(100));
+		
+		return temp1; // RETORNA PRODUTO JÁ COM DESCONTO
 	}
 
 	@Override
@@ -132,7 +140,6 @@ public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {/
 	public int updateSituation() {
 		int situation = UNAVAILABLE;
 		for (Pack pack : packs) {
-			System.out.println(pack.toString());
 			if (pack.isAvailable() == AVAILABLE) {
 				situation = AVAILABLE;
 			}

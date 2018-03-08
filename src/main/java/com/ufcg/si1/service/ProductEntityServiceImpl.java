@@ -18,14 +18,7 @@ public class ProductEntityServiceImpl {
 	private ProductEntityRepository prodEntRepository;
 
 	public List<ProductEntity> findAllProducts() {
-		System.out.println("------------------------");
-		System.out.println("------ALL-PRODUCTS------");
-		System.out.println("------------------------");
 		List<ProductEntity> products = prodEntRepository.findAll();
-		for (ProductEntity productEntity : products) {
-			System.out.println(productEntity.toString());
-		}
-		
 		return products;
 	}
 
@@ -36,6 +29,7 @@ public class ProductEntityServiceImpl {
 	public void update(Long id, String newName, BigDecimal newPrice) {
 		ProductEntity prod = findById(id);
 		prod.update(newName, newPrice);
+		saveProduct(prod);
 	}
 
 	public void saveProduct(ProductEntity newProduct) {

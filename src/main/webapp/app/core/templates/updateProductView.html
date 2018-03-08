@@ -5,13 +5,13 @@
     <form name="putProductPriceForm">
         <div class="form-group">
             <label>Nome</label>
-            <input type="text" class="form-control" required ng-model="product.name"/>
+            <input type="text" class="form-control" ng-required="true" ng-model="product.productName"/>
         </div>
         <div class="form-group">
             <label>Preço</label>
             <div class="input-group">
                 <div class="input-group-addon">R$</div>
-                <input type="number" step="0.01" class="form-control" required ng-model="product.price"/>
+                <input type="number" step="0.01" class="form-control" ng-required="true" ng-model="product.price"/>
             </div>
         </div>
     </form>

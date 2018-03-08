@@ -3,15 +3,11 @@ package com.ufcg.si1.model;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Transient;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Category implements Serializable, CategoryPlan {
@@ -36,8 +32,8 @@ public class Category implements Serializable, CategoryPlan {
 	@Transient
 	private static final int DESCONTO_TRES = 50;
 	
-	@OneToOne
-	private ProductEntity entity;
+	@OneToMany(mappedBy = "category")
+	private List<ProductEntity> entity;
 
 	public Category() {
 	}
@@ -82,4 +78,18 @@ public class Category implements Serializable, CategoryPlan {
 	public void setDiscount(int discount) {
 		this.discount = discount;
 	}
+	
+	@Override
+	public String toString() {
+		String r = "ID: "+ id + "\nCategoria: " + name + "\nDesconto: " + discount;
+		
+		
+		
+		
+		
+		
+		return r;
+	}
+	
+	
 }

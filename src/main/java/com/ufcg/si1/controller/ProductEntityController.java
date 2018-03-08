@@ -1,7 +1,6 @@
 package com.ufcg.si1.controller;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +21,7 @@ import com.ufcg.si1.model.ProductEntity;
 import com.ufcg.si1.service.CategoryService;
 import com.ufcg.si1.service.PackService;
 import com.ufcg.si1.service.ProductEntityServiceImpl;
-import com.ufcg.si1.service.ProductService;
 import com.ufcg.si1.util.CustomErrorType;
-
-import exceptions.ObjetoInvalidoException;
 
 @RestController
 @CrossOrigin
@@ -34,9 +30,6 @@ public class ProductEntityController {
 	
 	@Autowired
 	private ProductEntityServiceImpl prodEntService;
-	
-	@Autowired
-	private ProductService prodService;
 	
 	@Autowired
 	private CategoryService catService;
@@ -53,12 +46,11 @@ public class ProductEntityController {
 	@RequestMapping(value = "/product/{category}", method = RequestMethod.POST)
 	public ResponseEntity<ProductEntity> createProduct(@RequestBody Product product, @PathVariable("category") String category, UriComponentsBuilder ucBuilder) {
 		String categoryName = category;
-		System.out.println(categoryName);
-		
 		Category categoryAux = catService.findCategoryByName(categoryName);
 		
 		if(categoryAux == null) {
 			categoryAux = new Category(categoryName, 0);
+			catService.addCategory(categoryAux);
 		} 
 		
 		boolean productExists = prodEntService.productExists(product.getBarCode());
@@ -69,8 +61,6 @@ public class ProductEntityController {
 		}
 		
 		ProductEntity newProduct = new ProductEntity(product, categoryAux);
-		
-		catService.addCategory(categoryAux);
 		prodEntService.saveProduct(newProduct);
 		System.out.println("Cadastrou o produto " + newProduct.getProductName());
 
@@ -109,7 +99,6 @@ public class ProductEntityController {
 		pack.setProduct(prod);
 		packService.savePack(pack);
 		prodEntService.addPackToProduct(prod.getId(), pack);
-		System.out.println(prod.toString());
 		return new ResponseEntity<ProductEntity>(prod, HttpStatus.CREATED);
 	}
 	
@@ -119,4 +108,18 @@ public class ProductEntityController {
 		return new ResponseEntity<List<Pack>>(packs, HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "/product/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteProduto(@PathVariable("id") Long id) {
+
+		ProductEntity produtoDeletado = prodEntService.findById(id);
+
+		if (produtoDeletado == null) {
+			return new ResponseEntity(new CustomErrorType("Unable to delete. Produto with id " + id + " not found."),
+					HttpStatus.NOT_FOUND);
+		}
+		prodEntService.deleteProduct(id);
+		return new ResponseEntity<Product>(HttpStatus.NO_CONTENT);
+	}
+
+	
 }

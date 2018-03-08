@@ -1,16 +1,6 @@
-app.controller("NewDiscountCtrl", function($scope, $uibModalInstance, DiscountsService) {
+app.controller("NewDiscountCtrl", function($scope, $uibModalInstance, DiscountsService, categories) {
 
-    var loadCategories = () => {
-        $scope.categories = []
-        DiscountsService.getDiscounts()
-            .then(res => {
-                if (res == 201) {
-                    $scope.categories = res.data;
-                }
-            }).catch(err => {
-                console.log(err);
-            })
-    }
+    $scope.categories = categories;
 
     $scope.discounts = [{
             message:"Sem Desconto (0%)", value:0
@@ -22,15 +12,20 @@ app.controller("NewDiscountCtrl", function($scope, $uibModalInstance, DiscountsS
             message:"Super Desconto (50%)", value:50
     }];
 
-    loadCategories();
-
     $scope.createDiscount = (category, discount) => {
-        DiscountsService.createDiscount(category, discount);
+        console.log(category);
+        console.log(discount);
+        DiscountsService.createDiscount(category, discount.value)
+            .then(res => {
+                $uibModalInstance.close(201);
+            }).catch(err => {
+                console.log(err);
+            })
     }
-
-
+    
+    
     $scope.cancel = () => {
         $uibModalInstance.dismiss("cancel");
     }
-
+    
 })

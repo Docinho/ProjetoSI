@@ -16,7 +16,7 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, ProductService,
         ProductService.getAllProducts()
             .then(response => {
                 $scope.productsList = response.data;
-                console.log($scope.productsList);
+                // console.log($scope.productsList);
             }).catch(error => {
                 console.log(error);
             });
@@ -55,7 +55,7 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, ProductService,
         });
 
         modalInstance.result.then(result => {
-            if (result.status === 201) {
+            if (result === 201) {
                 loadProductsList();
             }
         });
@@ -75,7 +75,6 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, ProductService,
         });
 
         modalInstance.result.then(result => {
-            console.log(result)
             if (result.status === 201) {
                 loadProductsList();
             }
