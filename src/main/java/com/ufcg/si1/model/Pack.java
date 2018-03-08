@@ -116,6 +116,13 @@ public class Pack implements Comparable<Pack>, Serializable, PackPlan {
 		return aux;
 	}
 	
+	public int isCloseToExpire() {
+		int r = 0;
+		if (this.daysToExpire() <= 30 && this.daysToExpire() >= 0)
+			r = 1;
+		return r;
+	}
+	
 	private boolean isExpired() {
 		return daysToExpire() < 0;
 	}

@@ -201,4 +201,27 @@ public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {/
 		return r;
 	}
 	
+	public int getAlert() {
+		boolean shAlPack = shouldAlertPack();
+		if (this.quantity > 15 && !shAlPack) {
+			return 0; // NO ALERTS
+		} else if (this.quantity <= 15 && !shAlPack) {
+			return 1; // ALERT QUANTITY
+		} else if (this.quantity > 15 && shAlPack) {
+			return 2; // ALERT EXPIRATION
+		} else {
+			return 3; // ALERT BOTH QUANTITY AND EXPIRATION
+		}
+	}
+
+	private boolean shouldAlertPack() {
+		if (this.packs != null) {
+			for (Pack pack : packs) {
+				if (pack.isCloseToExpire() == 1) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }

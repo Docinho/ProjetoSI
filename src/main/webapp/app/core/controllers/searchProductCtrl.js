@@ -1,7 +1,5 @@
 app.controller("SearchProductCtrl", function ($scope, $uibModal, ProductService, toastr, BASE_TEMPLATE_PATH) {
 
-    // $scope.title = "Search Product";
-
     $scope.order = (field) => {
       $scope.field = field;
     }
@@ -16,11 +14,21 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, ProductService,
         ProductService.getAllProducts()
             .then(response => {
                 $scope.productsList = response.data;
-                // console.log($scope.productsList);
+                console.log($scope.productsList);
             }).catch(error => {
                 console.log(error);
             });
     };
+
+    $scope.message = (alert) => {
+        if (alert == 1) {
+            return "Restam poucos produtos!";
+        } else if (alert == 2) {
+            return "Existem lotes próximos da data de vencimento.";
+        } else {
+            return "Restam poucos produtos e existem lotes próximos da data de vencimento";
+        }
+    }
 
     $scope.openCreateProductDialog = () => {
         var modalInstance = $uibModal.open({
