@@ -2,6 +2,7 @@ package com.ufcg.si1.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -136,6 +137,7 @@ public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {/
 
 	public void addPack(Pack pack) {
 		packs.add(pack);
+		Collections.sort(packs);
 	}
 	
 	public List<Pack> getPacks() {
