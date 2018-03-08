@@ -1,34 +1,39 @@
-app.controller("categoriesCtrl", function ($scope, $http, toastr, ProductService) {
+app.controller("categoriesCtrl", function ($scope, $uibModal, DiscountsService, toastr, BASE_TEMPLATE_PATH) {
     $scope.categories = [];
 
-
     var listCategories = function() {
+        $scope.categories = [];
+        DiscountsService.getDiscounts()
+            .then(res => {
 
-        $http({method:'GET', url:'/api/category/'})
-            .then(function(answer){
-                $scope.categories = answer.data;
-            }, function(answer){
-                console.log("Fez erroneamente o GET das categorias");
-            });         
+            }).catch(err => {
+
+            })
     }
 
-    $scope.updateDiscount = function(category, option) {
-
-        var discount = parseInt(option);
-
+    $scope.openNewDiscountView = () => {
+        var modalInstance = $uibModal.open({
+            ariaLabelledBy: 'Criar Desconto',
+            ariaDescribedBy: 'Formulario para criar um desconto',
+            templateUrl: BASE_TEMPLATE_PATH + 'newDiscountView.html',
+            controller: 'NewDiscountCtrl',
+        });
         
-        if(isNaN(discount)) {
-           toastr.error("Selecione um desconto antes de alterar!");
+        modalInstance.result.then(res => {
+            if (res == 201) {
+                toastr.success("Desconto criado com sucesso");
 
-        } else {
-            $http({method:'GET', url:"/api/category/"+ category.id +"/" + discount})
-            .then(function(answer){
-                    category.discount = answer.data.discount;
-                    toastr.success("Desconto alterado com sucesso!");
-            }, function(answer){
-             console.log("Falha " + answer);
-               }); 
-        }
+            }}).catch(err => {
+                if (err != "cancel" && err != "backdrop click") {
+                    toastr.error(err);
+                    console.log(err);
+                }
+            })
+
+    }
+
+    $scope.removeDiscount = (category) => {
+        DiscountsService.createDiscount(category, 0);
     }
     
     listCategories();

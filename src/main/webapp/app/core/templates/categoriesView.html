@@ -1,27 +1,31 @@
 <div>
     <div class="container-fluid">
-    <h3>Categorias e seus Descontos</h3>
-    <table class="table table-striped">
-        <tr>
-            <th class="text-center">Nome da Categoria</th>
-            <th class="text-center">Desconto atual da Categoria</th>
-            <th class="text-center">Novo Desconto</th>
-            <th class="text-center"></th>
-        </tr>
-    
-        <tr ng-repeat="category in categories">
-            <td class="text-center">{{category.name}}</td>
-            <td class="text-center">{{category.discount}}%</td>
-            <td class="text-center">
-                <select class="form-control" name="singleSelect" ng-model="data.singleSelect">
-                  <option value="0">0%</option>
-                  <option value="10">10%</option>
-                  <option value="25">25%</option>
-                  <option value="50">50%</option>
-                </select>
-            </td>
-            <td><button class="btn btn-success" ng-click="updateDiscount(category, data.singleSelect)">Alterar desconto</button></td>
-        </tr>
-    </table>
+        <div class="row">
+            <div class="col-xs-9 col-md-10 col-lg-10">
+                <h3>Descontos</h3>
+            </div>
+            <div class="col-xs-1">
+                <button class="btn btn-sucess" ng-click="openNewDiscountView()">
+                    Novo desconto
+                </button>
+            </div>
+        </div>
+        <table class="table table-striped">
+            <tr>
+                <th class="text-center">Nome da Categoria</th>
+                <th class="text-center">Desconto Atual</th>
+                <th class="text-center">Remover Desconto</th>
+            </tr>
+        
+            <tr ng-repeat="category in categories | hasDiscount">
+                <td class="text-center">{{category.categoryName}}</td>
+                <td class="text-center">{{category.discount}}%</td>
+                <td class="text-center">
+                    <button class="btn btn-danger" ng-click="removeDiscount(category)">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                </td>
+            </tr>
+        </table>
     </div>    
 </div>

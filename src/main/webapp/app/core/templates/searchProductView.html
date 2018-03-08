@@ -1,18 +1,18 @@
 <div class="container">
-    <div class="col-md-9">
+    <div class="col-md-9 col-xs-12">
       <div class="well">
         <div class="panel-heading c-list">
-          <span class="title">Produtos</span>
-          <ul class="pull-right c-controls">
-            <li>
-              <button class="btn btn-success" ng-click="openCreateProductDialog()">Adicionar Produto</button>
-            </li>
-          </ul>
+          <div class="col-xs-8 col-md-10 col-lg-9">
+            <span class="title">Produtos</span>
+          </div>
+          <div class="col-xs-1 col-md-1 col-lg-1">
+            <button class="btn btn-success" ng-click="openCreateProductDialog()">Adicionar Produto</button>
+          </div>
         </div>
         <br>
   
         <div class="row">
-          <div class="col-xs-9">
+          <div class="col-xs-8 col-md-9">
             <input type="text" class="form-control" ng-model="productId" id="product-list-search" placeholder="Buscar produto pelo código de barras">
           </div>
           <div class="col-xs-1">
