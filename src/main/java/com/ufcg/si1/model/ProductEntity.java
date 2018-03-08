@@ -47,13 +47,20 @@ public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {/
 	@OneToOne(cascade = {CascadeType.ALL})
 	private Category category;
 	
+	private int quantity;
+	
 	public ProductEntity (Product prod, Category cat) {
 		this.product = prod;
 		this.category = cat;
+		this.quantity = 0;
 	}
 	
 	public ProductEntity() {
 		
+	}
+	
+	public Long getId() {
+		return product.getId();
 	}
 
 	@Override

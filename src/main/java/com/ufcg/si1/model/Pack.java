@@ -14,7 +14,7 @@ import javax.persistence.Transient;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
-public class Pack implements Serializable, PackPlan {
+public class Pack implements Comparable<Pack>, Serializable, PackPlan {
 
 	@Transient
 	private static final long serialVersionUID = 1L;
@@ -67,5 +67,18 @@ public class Pack implements Serializable, PackPlan {
 
 	public void setExpirationDate(String newExpirationDate) {
 		this.expirationDate = newExpirationDate;
+	}
+
+	@Override
+	public int compareTo(Pack otherPack) {
+		String[] data = this.expirationDate.split("/");
+		String[] otherData = otherPack.getExpirationDate().split("/");
+		if (data[2].compareTo(otherData[2]) > 0) {
+			return 1;
+		}
+		if (data[2].compareTo(otherData[2]) < 0) {
+			return 1;
+		}
+		return 0;
 	}
 }
