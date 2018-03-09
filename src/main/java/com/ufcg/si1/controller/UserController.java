@@ -17,7 +17,6 @@ import com.ufcg.si1.util.CustomErrorType;
 
 @RestController
 @CrossOrigin
-//@RequestMapping("/api")
 public class UserController {
 
 	@Autowired
@@ -45,17 +44,5 @@ public class UserController {
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
 
-	@RequestMapping(method = RequestMethod.PUT, value = "/user/")
-	public ResponseEntity<User> loginUser(@RequestBody User user) {
-		User userLogin = userService.findByLogin(user.getLogin());
-
-		if (userLogin != null) {
-			userLogado = userLogin;
-			System.out.println("Logado como " + user.getLogin());
-			return new ResponseEntity<User>(userLogado, HttpStatus.ACCEPTED);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-		}
-	}
 
 }
