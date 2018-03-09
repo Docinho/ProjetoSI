@@ -23,7 +23,6 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-	User userLogado;
 
 	@RequestMapping(method = RequestMethod.POST, value = "/user/")
 	public ResponseEntity<User> cadastrarCliente(@RequestBody User user) {
