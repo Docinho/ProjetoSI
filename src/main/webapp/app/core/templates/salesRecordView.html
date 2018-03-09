@@ -1,0 +1,36 @@
+<div class="container-fluid">
+
+    <div class="jumbotron">
+        <div class="row">
+            <h3 class="col-xs-11 col-md-10 col-lg-9">Registro de Vendas</h3>
+        </div>
+        <div class="row">
+            <select class="form-control col-xs-11 col-md-10 col-lg-9"
+                ng-options="prod.productName for prod in productsList"
+                ng-model="selected">
+                <option value="">Selecione um produto</option>
+            </select>
+        </div>
+    </div>
+
+    <div ng-if="selected != undefined">
+        <table class="table">
+            <tr class="jumbotron">
+                <th class="text-center">Venda</th>
+                <th class="text-center">Quantidade</th>
+                <th class="text-center">Cancelar Venda</th>
+            </tr>
+            <tr class="trow" ng-repeat="sale in selected.sales">
+                <td class="text-center">{{"Venda n°" + sale.id}}</td>
+                <td class="text-center">{{sale.quantity}}</td>
+                <td><button class="btn btn-danger" title="Cancelar Venda" ng-click="cancelSale(sale, selected)">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button></td>
+            </tr>
+        </table>
+    </div>
+
+
+
+
+</div>

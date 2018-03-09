@@ -33,7 +33,7 @@ public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {/
 	private static final int UNAVAILABLE = 2;
 
 	@JsonManagedReference
-	@OneToMany(mappedBy = "entity")
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "entity")
 	private List<Pack> packs;
 	
 	@OneToOne(cascade = {CascadeType.ALL})
@@ -42,6 +42,9 @@ public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {/
 	@JsonBackReference
 	@ManyToOne(cascade = {CascadeType.ALL})
 	private Category category;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "entitySale")
+	private List<Sale> sales;
 	
 	private int quantity;
 	
@@ -110,6 +113,16 @@ public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {/
 		
 		return temp1; // RETORNA PRODUTO JÁ COM DESCONTO
 	}
+	
+	public BigDecimal getProfit() {
+		BigDecimal profit = new BigDecimal(0);
+		if (sales != null) {
+			for (Sale sale : sales) {
+				profit.add(sale.getValue());
+			}
+		}
+		return profit;
+	}
 
 	@Override
 	public String getManufacturer() {
@@ -164,10 +177,11 @@ public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {/
 		return this.packs;
 	}
 	
-	public int makeSell(int quantity) {
+	public int makeSell(Sale sale) {
 		int i = 0;
 		int madeSell = 0;
 		if (this.quantity >= quantity) {
+			sale.setPrice(getPrice());
 			int maxAble = 0;
 			madeSell = 1;
 			while (i < this.packs.size()) {
@@ -176,14 +190,22 @@ public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {/
 					maxAble = thisPack.getItemNumber();
 					this.quantity -= maxAble;
 					quantity -= maxAble;
-					madeSell = thisPack.makeSell(maxAble, this.getPrice());
+					thisPack.makeSell(maxAble, sale);
 				}
+				sale.addPack(thisPack);
 				i++;
 			}
 		} 
 		return madeSell;
 	}
 
+	public void cancelSell(Sale sale) {
+		this.sales.remove(sale);
+		for (Pack p : sale.getPacks()) {
+			p.cancelSell(sale);
+		}
+	}
+	
 	public int getQuantity() {
 		return quantity;
 	}
@@ -224,4 +246,10 @@ public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {/
 		}
 		return false;
 	}
+
+	
+	public List<Sale> getSales() {
+		return this.sales;
+	}
+
 }

@@ -18,9 +18,11 @@ import com.ufcg.si1.model.Category;
 import com.ufcg.si1.model.Pack;
 import com.ufcg.si1.model.Product;
 import com.ufcg.si1.model.ProductEntity;
+import com.ufcg.si1.model.Sale;
 import com.ufcg.si1.service.CategoryService;
 import com.ufcg.si1.service.PackService;
 import com.ufcg.si1.service.ProductEntityServiceImpl;
+import com.ufcg.si1.service.SalesService;
 import com.ufcg.si1.util.CustomErrorType;
 
 @RestController
@@ -30,6 +32,9 @@ public class ProductEntityController {
 	
 	@Autowired
 	private ProductEntityServiceImpl prodEntService;
+	
+	@Autowired
+	private SalesService saleService;
 	
 	@Autowired
 	private CategoryService catService;
@@ -109,17 +114,73 @@ public class ProductEntityController {
 	}
 
 	@RequestMapping(value = "/product/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<?> deleteProduto(@PathVariable("id") Long id) {
+	public ResponseEntity<?> deleteProduct(@PathVariable("id") Long id) {
 
-		ProductEntity produtoDeletado = prodEntService.findById(id);
+		ProductEntity toDelete = prodEntService.findById(id);
 
-		if (produtoDeletado == null) {
+		if (toDelete == null) {
 			return new ResponseEntity(new CustomErrorType("Unable to delete. Produto with id " + id + " not found."),
 					HttpStatus.NOT_FOUND);
 		}
 		prodEntService.deleteProduct(id);
 		return new ResponseEntity<Product>(HttpStatus.NO_CONTENT);
 	}
-
 	
+	@RequestMapping(value = "/product/sales/", method = RequestMethod.GET)
+	public ResponseEntity<List<Sale>> getAllSales() {
+		return new ResponseEntity<List<Sale>>(saleService.findAll(), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/product/{id}/sales/", method = RequestMethod.GET)
+	public ResponseEntity<List<Sale>> getProductSales(@PathVariable("id") Long id) {
+		ProductEntity found = prodEntService.findById(id);
+		if (found == null) {
+			return new ResponseEntity(new CustomErrorType("Product with id " + id + " not found."),
+					HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<List<Sale>>(found.getSales(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/product/{id}/sales/", method = RequestMethod.POST)
+	public ResponseEntity<List<Sale>> makeSale(@PathVariable("id") Long id, @RequestBody int sale) {
+		ProductEntity found = prodEntService.findById(id);
+		if (found == null) {
+			return new ResponseEntity(new CustomErrorType("Product with id " + id + " not found."),
+					HttpStatus.NOT_FOUND);
+		}
+		
+		Sale thisSale = new Sale(sale);
+		saleService.addSale(thisSale);
+		
+		int res = found.makeSell(thisSale);
+		if (res == 0) {	
+			return new ResponseEntity(new CustomErrorType("Impossible to sell " + thisSale.getQuantity() + "of " + found.getProductName()),
+					HttpStatus.NOT_ACCEPTABLE);
+		}
+		prodEntService.saveProduct(found);
+		
+		return new ResponseEntity<List<Sale>>(found.getSales(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/product/{pid}/sales/{sid}", method = RequestMethod.DELETE)
+	public ResponseEntity<List<Sale>> deleteSale(@PathVariable("pid") Long pid, Long sid) {
+		ProductEntity found = prodEntService.findById(pid);
+		if (found == null) {
+			return new ResponseEntity(new CustomErrorType("Product with id " + pid + " not found."),
+					HttpStatus.NOT_FOUND);
+		}
+		
+		Sale saleFound = saleService.findById(sid);
+		
+		if (saleFound == null) {
+			return new ResponseEntity(new CustomErrorType("Sale with id " + sid + " not found."),
+					HttpStatus.NOT_FOUND);
+		}
+		
+		found.cancelSell(saleFound);
+		saleService.delete(sid);
+		prodEntService.saveProduct(found);
+		return new ResponseEntity<List<Sale>>(found.getSales(), HttpStatus.OK);
+	}
 }

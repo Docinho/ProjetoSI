@@ -3,6 +3,7 @@ package com.ufcg.si1.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -32,8 +33,8 @@ public class Category implements Serializable, CategoryPlan {
 	@Transient
 	private static final int DESCONTO_TRES = 50;
 	
-	@OneToMany(mappedBy = "category")
-	private List<ProductEntity> entity;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
+	private List<ProductEntity> entityCat;
 
 	public Category() {
 	}

@@ -1,4 +1,4 @@
-app.controller("categoriesCtrl", function ($scope, $uibModal, DiscountsService, toastr, BASE_TEMPLATE_PATH) {
+app.controller("CategoriesCtrl", function ($scope, $uibModal, DiscountsService, toastr, BASE_TEMPLATE_PATH) {
 
     var loadCategories = function() {
         $scope.categories = [];

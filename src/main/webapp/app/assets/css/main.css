@@ -92,3 +92,11 @@ ul.c-controls li a i {
     margin-top: 15px;
 }
 
+.trow {
+    box-shadow: 1px 1px;
+}
+
+.trow:hover {
+    background-color: hsl(0, 0%, 86.3%) !important;
+    cursor: pointer;
+}

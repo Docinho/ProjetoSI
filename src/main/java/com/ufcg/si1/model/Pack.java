@@ -1,7 +1,6 @@
 package com.ufcg.si1.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -10,8 +9,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -28,12 +27,12 @@ public class Pack implements Comparable<Pack>, Serializable, PackPlan {
 	private int itemNumber;
 	private String expirationDate;
 	
-	@OneToMany(mappedBy = "pack")
-	private List<Sell> sells; 
-	
 	@JsonBackReference
 	@ManyToOne(cascade = {CascadeType.ALL})
 	private ProductEntity entity;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	private List<Sale> salesPack;
 
 	public Pack(int itemNumber, String expirationDate) {
 		super();
@@ -66,10 +65,6 @@ public class Pack implements Comparable<Pack>, Serializable, PackPlan {
 	public void setItemNumber(int newItemNumber) {
 		this.itemNumber = newItemNumber;
 	}
-	
-//	public Calendar getDate() {
-//		return this.expirationDate;
-//	}
 
 	public String getExpirationDate() {
 		return this.expirationDate;
@@ -94,14 +89,14 @@ public class Pack implements Comparable<Pack>, Serializable, PackPlan {
 		return aux2.compareTo(aux1);
 	}
 	
-	public int makeSell(int quantity, BigDecimal price) {
-		if (this.itemNumber - quantity >= 0) {
-			this.itemNumber -= quantity;
-			this.sells.add(new Sell(quantity, price));
-			return 1;
-		} else {
-			return 0;
-		}
+	public void makeSell(int quantity, Sale sale) {
+		this.itemNumber -= sale.getQuantity();
+		this.salesPack.add(sale);
+	}
+	
+	public void cancelSell(Sale sale) {
+		this.itemNumber += sale.getQuantity();
+		this.salesPack.remove(sale);
 	}
 	
 	@Transient

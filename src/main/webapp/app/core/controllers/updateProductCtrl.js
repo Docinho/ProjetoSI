@@ -3,6 +3,8 @@ app.controller("UpdateProductCtrl", function ($scope, $uibModalInstance, Product
     $scope.product = product;
 
     $scope.submit = function (paramProduct) {
+        console.log("param")
+        console.log(paramProduct);
 
         ProductService.updateProductById(product.id, paramProduct)
             .then(function success(response) {

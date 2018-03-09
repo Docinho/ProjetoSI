@@ -1,16 +1,23 @@
-<div>
-  <h2 class="title">Lista</h2>
-  <table class="table">
-    <tr>
-      <th><a ng-click="order('id')">Lote</a></th>
-      <th><a ng-click="order('itemNumber')">Produto</a></th>
-      <th><a ng-click="order('expirationDate')">Data</a></th>
-    </tr>
-    
-    <tr ng-repeat="package in packageList | orderBy:field">
-      <td>Lote {{package.id}}</td>
-      <td>{{package.itemNumber}}</td>
-      <td>{{package.expirationDate}}</td>
-    </tr>
-  </table>
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Vender Produto</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <form name="sellProductForm">
+        <div class="form-group">
+            <label>Produto</label>
+            <select class="form-control col-xs-11 col-md-10 col-lg-9"
+                ng-options="prod.productName for prod in productsList"
+                ng-model="selected">
+                <option value="">Selecione um produto</option>
+            </select>
+        </div>
+        <div class="form-group">
+          <label>Quantidade</label>
+          <input type="number" step="1" class="form-control" ng-model="quantity">
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-disabled="sellProductForm.$invalid" ng-click="sellProduct(selected, quantity)">Criar</button>
+    <button class="btn btn-danger" type="button" ng-click="cancel()">Cancelar</button>
 </div>

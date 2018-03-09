@@ -14,7 +14,10 @@ app.config(function ($routeProvider, BASE_TEMPLATE_PATH) {
         controller: "SearchPackageCtrl"
     }).when("/categories", {
         templateUrl: BASE_TEMPLATE_PATH + "categoriesView.html",
-        controller: "categoriesCtrl"
+        controller: "CategoriesCtrl"
+    }).when("/salesRecord", {
+        templateUrl: BASE_TEMPLATE_PATH + "salesRecordView.html",
+        controller: "SalesRecordCtrl"
     }).otherwise({
         redirectTo: '/'
     });

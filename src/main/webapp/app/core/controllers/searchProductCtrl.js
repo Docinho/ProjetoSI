@@ -69,17 +69,12 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, ProductService,
         });
     };
 
-    $scope.openSellProductDialog = function(product) {
+    $scope.openSellProductDialog = function(productsList) {
         var modalInstance = $uibModal.open({
             ariaLabelledBy: 'Vender Produto',
             ariaDescribedBy: 'Formulario para Vender Produto',
             templateUrl: BASE_TEMPLATE_PATH + 'sellProductView.html',
-            controller: 'SellProductCtrl',
-            resolve: {
-                product: function () {
-                    return angular.copy(product);
-                }
-            }
+            controller: 'SellProductCtrl'
         });
 
         modalInstance.result.then(result => {
