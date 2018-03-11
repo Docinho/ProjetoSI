@@ -1,0 +1,31 @@
+<div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-9 col-md-10 col-lg-10">
+                <h3>Descontos</h3>
+            </div>
+            <div class="col-xs-1">
+                <button class="btn btn-sucess" ng-click="openNewDiscountView()">
+                    Novo desconto
+                </button>
+            </div>
+        </div>
+        <table class="table table-striped">
+            <tr>
+                <th class="text-center">Nome da Categoria</th>
+                <th class="text-center">Desconto Atual</th>
+                <th class="text-center">Remover Desconto</th>
+            </tr>
+        
+            <tr ng-repeat="category in categories | hasDiscount">
+                <td class="text-center">{{category.categoryName}}</td>
+                <td class="text-center">{{category.discount}}%</td>
+                <td class="text-center">
+                    <button class="btn btn-danger" ng-click="removeDiscount(category)">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>    
+</div>
