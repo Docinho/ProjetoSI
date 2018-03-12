@@ -32,7 +32,6 @@ public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {/
 	@Transient
 	private static final int UNAVAILABLE = 2;
 
-	@JsonManagedReference
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "entity")
 	private List<Pack> packs;
 	
@@ -52,6 +51,7 @@ public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {/
 	
 	public ProductEntity (Product prod, Category cat) {
 		this.product = prod;
+		prod.setEntity(this);
 		this.category = cat;
 		this.quantity = 0;
 		this.situation = UNAVAILABLE;
@@ -180,21 +180,29 @@ public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {/
 	public int makeSell(Sale sale) {
 		int i = 0;
 		int madeSell = 0;
+		int quantity = sale.getQuantity();
 		if (this.quantity >= quantity) {
 			sale.setPrice(getPrice());
 			int maxAble = 0;
 			madeSell = 1;
-			while (i < this.packs.size()) {
+			while (i < this.packs.size() && quantity != 0) {
 				Pack thisPack = packs.get(i);
 				if (thisPack.isAvailable() == AVAILABLE) {
 					maxAble = thisPack.getItemNumber();
-					this.quantity -= maxAble;
-					quantity -= maxAble;
-					thisPack.makeSell(maxAble, sale);
+					if (quantity > maxAble) {
+						this.quantity -= maxAble;
+						quantity -= maxAble;
+						thisPack.makeSell(maxAble, sale);
+					} else {
+						this.quantity -= quantity;
+						thisPack.makeSell(quantity, sale);
+						quantity = 0;
+					}
 				}
 				sale.addPack(thisPack);
 				i++;
 			}
+			this.sales.add(sale);
 		} 
 		return madeSell;
 	}

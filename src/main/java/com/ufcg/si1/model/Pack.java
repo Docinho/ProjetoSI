@@ -13,7 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Pack implements Comparable<Pack>, Serializable, PackPlan {
@@ -27,12 +27,13 @@ public class Pack implements Comparable<Pack>, Serializable, PackPlan {
 	private int itemNumber;
 	private String expirationDate;
 	
-	@JsonBackReference
 	@ManyToOne(cascade = {CascadeType.ALL})
-	private ProductEntity entity;
+	@JsonIgnore
+	private ProductEntity entity;	
 	
-	@ManyToMany(cascade = CascadeType.ALL)
-	private List<Sale> salesPack;
+	@JsonIgnore
+	@ManyToMany(mappedBy = "packs")
+	private List<Sale> sales;
 
 	public Pack(int itemNumber, String expirationDate) {
 		super();
@@ -91,12 +92,12 @@ public class Pack implements Comparable<Pack>, Serializable, PackPlan {
 	
 	public void makeSell(int quantity, Sale sale) {
 		this.itemNumber -= sale.getQuantity();
-		this.salesPack.add(sale);
+		this.sales.add(sale);
 	}
 	
 	public void cancelSell(Sale sale) {
 		this.itemNumber += sale.getQuantity();
-		this.salesPack.remove(sale);
+		this.sales.remove(sale);
 	}
 	
 	@Transient
@@ -147,5 +148,8 @@ public class Pack implements Comparable<Pack>, Serializable, PackPlan {
 		return r;
 	}
 	
+	public List<Sale> getSales() {
+		return this.sales;
+	}
 	
 }

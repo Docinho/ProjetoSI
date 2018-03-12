@@ -2,22 +2,14 @@ package com.ufcg.si1.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import exceptions.ObjetoInvalidoException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Product implements Serializable, ProductPlan {
@@ -38,6 +30,7 @@ public class Product implements Serializable, ProductPlan {
 	private String manufacturer;
 	
 	@OneToOne
+	@JsonIgnore
 	private ProductEntity entity;
 
 	public Product(Long id, String name, String barCode, String manufacturer) {
@@ -135,5 +128,9 @@ public class Product implements Serializable, ProductPlan {
 	public void update(String newName, BigDecimal newPrice) {
 		this.setProductName(newName);
 		this.setPrice(newPrice);
+	}
+
+	public void setEntity(ProductEntity productEntity) {
+		this.entity = productEntity;
 	}
 }
