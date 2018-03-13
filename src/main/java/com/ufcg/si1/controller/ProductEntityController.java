@@ -151,6 +151,7 @@ public class ProductEntityController {
 		}
 		
 		Sale thisSale = new Sale(sale);
+		thisSale.setEntitySale(found);
 		saleService.addSale(thisSale);
 		
 		int res = found.makeSell(thisSale);

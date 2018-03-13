@@ -1,6 +1,7 @@
 package com.ufcg.si1.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -33,7 +34,7 @@ public class Pack implements Comparable<Pack>, Serializable, PackPlan {
 	
 	@JsonIgnore
 	@ManyToMany(mappedBy = "packs")
-	private List<Sale> sales;
+	private List<Sale> sales = new ArrayList<Sale>();
 
 	public Pack(int itemNumber, String expirationDate) {
 		super();

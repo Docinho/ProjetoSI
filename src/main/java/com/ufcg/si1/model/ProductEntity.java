@@ -55,6 +55,7 @@ public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {/
 		this.category = cat;
 		this.quantity = 0;
 		this.situation = UNAVAILABLE;
+		prod.setEntity(this);
 	}
 	
 	public ProductEntity() {

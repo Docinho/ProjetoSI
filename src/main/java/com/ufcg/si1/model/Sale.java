@@ -1,6 +1,7 @@
 package com.ufcg.si1.model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -37,7 +38,7 @@ public class Sale {
         inverseJoinColumns=
             @JoinColumn(name="PACK_ID", referencedColumnName="ID")
         )
-	private List<Pack> packs;
+	private List<Pack> packs = new ArrayList<Pack>();
 	
 	public Sale() {
 	}
@@ -51,6 +52,16 @@ public class Sale {
 		this.value = price.multiply(new BigDecimal(quantity));
 	}
 	
+	
+	
+	public ProductEntity getEntitySale() {
+		return entitySale;
+	}
+
+	public void setEntitySale(ProductEntity entitySale) {
+		this.entitySale = entitySale;
+	}
+
 	public void cancelSale(Pack pack) {
 		packs.remove(pack);
 	}
