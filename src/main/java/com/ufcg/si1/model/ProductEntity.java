@@ -210,7 +210,7 @@ public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {/
 		this.sales.add(sale);
 	}
 
-	public void cancelSell(Sale sale) {
+	public void cancelSale(Sale sale) {
 		this.sales.remove(sale);
 		for (Pack p : sale.getPacks()) {
 			p.cancelSell(sale);

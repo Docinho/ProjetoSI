@@ -52,7 +52,9 @@ public class Sale {
 		this.value = price.multiply(new BigDecimal(quantity));
 	}
 	
-	
+	public Long getId() {
+		return this.id;
+	}
 	
 	public ProductEntity getEntitySale() {
 		return entitySale;

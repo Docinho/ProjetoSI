@@ -166,24 +166,18 @@ public class ProductEntityController {
 		return new ResponseEntity<List<Sale>>(found.getSales(), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/product/{pid}/sales/{sid}", method = RequestMethod.DELETE)
-	public ResponseEntity<List<Sale>> deleteSale(@PathVariable("pid") Long pid, @PathVariable("sid") Long sid) {
+	@RequestMapping(value = "/product/{pid}/sales/", method = RequestMethod.PUT)
+	public ResponseEntity<ProductEntity> deleteSale(@PathVariable("pid") Long pid, @RequestBody Sale sale) {
 		ProductEntity found = prodEntService.findById(pid);
+		System.out.println(found);
 		if (found == null) {
 			return new ResponseEntity(new CustomErrorType("Product with id " + pid + " not found."),
 					HttpStatus.NOT_FOUND);
 		}
 		
-		Sale saleFound = saleService.findById(sid);
-		
-		if (saleFound == null) {
-			return new ResponseEntity(new CustomErrorType("Sale with id " + sid + " not found."),
-					HttpStatus.NOT_FOUND);
-		}
-		
-		found.cancelSell(saleFound);
-		saleService.delete(sid);
+		found.cancelSale(sale);
+		saleService.delete(sale.getId());
 		prodEntService.saveProduct(found);
-		return new ResponseEntity<List<Sale>>(found.getSales(), HttpStatus.OK);
+		return new ResponseEntity<ProductEntity>(found, HttpStatus.OK);
 	}
 }

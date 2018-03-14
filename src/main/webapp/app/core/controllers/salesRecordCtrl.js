@@ -17,8 +17,8 @@ app.controller("SalesRecordCtrl", function($scope, toastr, ProductService) {
     };
 
     $scope.cancelSale = (product, sale) => {
-        ProductService.cancelSale(product.id, sale.id).
-            then(res => {
+        ProductService.cancelSale(product.id, sale)
+            .then(res => {
                 toastr.success("Venda cancelada com sucesso");
             }).catch(err => {
                 toastr.error("Não foi possível cancelar a venda");

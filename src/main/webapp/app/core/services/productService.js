@@ -20,4 +20,10 @@ app.service("ProductService", function($http, BASE_SERVER_URL) {
         return $http.post("/api/product/" + id + "/sales/", quantity);
     }
 
+    this.cancelSale = (idProduct, sale) => {
+        console.log(idProduct + "ID PRODUCT");
+        console.log(idProduct + "ID SALE")
+        return $http.put("/api/product/" + idProduct + "/sales/", sale);
+    }
+
 })

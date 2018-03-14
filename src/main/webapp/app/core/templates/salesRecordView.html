@@ -23,7 +23,7 @@
             <tr class="trow" ng-repeat="sale in selected.sales">
                 <td class="text-center">{{"Venda n°" + sale.id}}</td>
                 <td class="text-center">{{sale.quantity}}</td>
-                <td><button class="btn btn-danger" title="Cancelar Venda" ng-click="cancelSale(sale, selected)">
+                <td class="text-center"><button class="btn btn-danger" title="Cancelar Venda" ng-click="cancelSale(selected, sale)">
                     <span class="glyphicon glyphicon-remove"></span>
                 </button></td>
             </tr>

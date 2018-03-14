@@ -77,11 +77,17 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, ProductService,
             controller: 'SellProductCtrl'
         });
 
-        modalInstance.result.then(result => {
-            if (result.status === 201) {
-                loadProductsList();
-            }
-        });
+        modalInstance.result
+            .then(res => {
+                if (res === 201) {
+                    loadProductsList();
+                }
+            }).catch(err => {
+                if (err != "cancel" && err != "backdrop click") {
+                    console.log(err);
+                    toastr.error("Ocorreu um erro");
+                }
+            });
     };
 
     $scope.openCreatePackDialog = (product) => {
