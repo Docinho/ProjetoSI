@@ -30,4 +30,8 @@ public class SalesService {
 		 saleRep.delete(id);
 	}
 
+	public void save(Sale sale) {
+		saleRep.save(sale);
+	}
+
 }

@@ -26,6 +26,7 @@ public class Sale {
 	private Long id;
 	private int quantity;
 	private BigDecimal value; 
+	private int cancelled;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JsonIgnore
@@ -45,9 +46,11 @@ public class Sale {
 
 	public Sale(int quantity) {
 		this.quantity = quantity;
+		this.cancelled = 0;
 	}
 	
 	public Sale(int quantity, BigDecimal price) {
+		this.cancelled = 0;
 		this.quantity = quantity;
 		this.value = price.multiply(new BigDecimal(quantity));
 	}
@@ -65,7 +68,15 @@ public class Sale {
 	}
 
 	public void cancelSale(Pack pack) {
-		packs.remove(pack);
+		this.cancelled = 1;
+	}
+	
+	public int getCancelled() {
+		return this.cancelled;
+	}
+	
+	public void setCancelled() {
+		this.cancelled = 1;
 	}
 	
 	public BigDecimal getValue() {
@@ -116,4 +127,5 @@ public class Sale {
 	public void setPrice(BigDecimal price) {
 		 this.value = price.multiply(new BigDecimal(this.quantity));
 	}
+	
 }

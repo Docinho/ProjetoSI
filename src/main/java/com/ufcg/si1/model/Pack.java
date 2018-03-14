@@ -98,7 +98,6 @@ public class Pack implements Comparable<Pack>, Serializable, PackPlan {
 	
 	public void cancelSell(Sale sale) {
 		this.itemNumber += sale.getQuantity();
-		this.sales.remove(sale);
 	}
 	
 	@Transient

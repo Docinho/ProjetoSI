@@ -175,7 +175,7 @@ public class ProductEntityController {
 		}
 		
 		found.cancelSale(sale);
-		saleService.delete(sale.getId());
+		saleService.save(sale);
 		prodEntService.saveProduct(found);
 		return new ResponseEntity<ProductEntity>(found, HttpStatus.OK);
 	}
