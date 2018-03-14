@@ -167,7 +167,7 @@ public class ProductEntityController {
 	}
 	
 	@RequestMapping(value = "/product/{pid}/sales/{sid}", method = RequestMethod.DELETE)
-	public ResponseEntity<List<Sale>> deleteSale(@PathVariable("pid") Long pid, Long sid) {
+	public ResponseEntity<List<Sale>> deleteSale(@PathVariable("pid") Long pid, @PathVariable("sid") Long sid) {
 		ProductEntity found = prodEntService.findById(pid);
 		if (found == null) {
 			return new ResponseEntity(new CustomErrorType("Product with id " + pid + " not found."),

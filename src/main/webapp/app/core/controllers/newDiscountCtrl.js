@@ -3,8 +3,6 @@ app.controller("NewDiscountCtrl", function($scope, $uibModalInstance, DiscountsS
     $scope.categories = categories;
 
     $scope.discounts = [{
-            message:"Sem Desconto (0%)", value:0
-        }, {
             message:"Bom Desconto (10%)", value:10
         }, {
             message:"Ótimo Desconto (25%)", value:25

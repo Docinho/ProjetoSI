@@ -22,7 +22,7 @@ app.controller("SellProductCtrl", function($scope, $uibModalInstance, ProductSer
         ProductService.sellProducts(product.id, quantity)
             .then(res => {
                 if (res.status === 200) {
-                    toastr.success(quantity + "unidade(s) de " + product.productName + " vendidos.")
+                    toastr.success(quantity + " unidade(s) de " + product.productName + " vendidos.")
                     $uibModalInstance.close(200);
                 }
             }).catch(err => {

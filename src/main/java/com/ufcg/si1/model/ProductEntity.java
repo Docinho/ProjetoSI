@@ -15,7 +15,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {//, PackPlan {
@@ -106,7 +105,7 @@ public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {/
 		BigDecimal temp1 = product.getPrice();
 		BigDecimal temp2 = product.getPrice();
 		temp1 = temp1.multiply(new BigDecimal(100));
-		temp2 = temp1.multiply(new BigDecimal(getDiscount()));
+		temp2 = temp2.multiply(new BigDecimal(getDiscount()));
 		
 		temp1 = temp1.subtract(temp2);
 		temp1 = temp1.divide(new BigDecimal(100));
@@ -178,33 +177,37 @@ public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {/
 	}
 	
 	public int makeSell(Sale sale) {
-		int i = 0;
 		int madeSell = 0;
 		int quantity = sale.getQuantity();
 		if (this.quantity >= quantity) {
 			sale.setPrice(getPrice());
-			int maxAble = 0;
 			madeSell = 1;
-			while (i < this.packs.size() && quantity != 0) {
-				Pack thisPack = packs.get(i);
-				if (thisPack.isAvailable() == AVAILABLE) {
-					maxAble = thisPack.getItemNumber();
-					if (quantity > maxAble) {
-						this.quantity -= maxAble;
-						quantity -= maxAble;
-						thisPack.makeSell(maxAble, sale);
-					} else {
-						this.quantity -= quantity;
-						thisPack.makeSell(quantity, sale);
-						quantity = 0;
-					}
-				}
-				sale.addPack(thisPack);
-				i++;
-			}
-			this.sales.add(sale);
+			auxSale(quantity, sale);
 		} 
 		return madeSell;
+	}
+	
+	private void auxSale(int quantity, Sale sale) {
+		int i = 0;
+		int maxAble = 0;
+		while (i < this.packs.size() && quantity != 0) {
+			Pack thisPack = packs.get(i);
+			if (thisPack.isAvailable() == AVAILABLE) {
+				maxAble = thisPack.getItemNumber();
+				if (quantity > maxAble) {
+					this.quantity -= maxAble;
+					quantity -= maxAble;
+					thisPack.makeSell(maxAble, sale);
+				} else {
+					this.quantity -= quantity;
+					thisPack.makeSell(quantity, sale);
+					quantity = 0;
+				}
+			}
+			sale.addPack(thisPack);
+			i++;
+		}
+		this.sales.add(sale);
 	}
 
 	public void cancelSell(Sale sale) {
