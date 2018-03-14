@@ -1,0 +1,42 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-11 col-md-10 col-lg-9">
+            <h2>Registro do Estoque</h2>
+        </div>
+    </div>
+    <table class="table col-xs-11 col-md-10 col-lg-9">
+        <tr class="jumbotron trow">
+            <th class="text-center"><a ng-click="order('productName')">Nome</a></th>
+            <th class="text-center"><a ng-click="order('packs')">Quantidade de Lotes</a></th>
+            <th class="text-center">Alertas</th>
+        </tr>
+    
+        <tr ng-repeat="product in productList | orderBy:field" ng-click="selectProduct(product)" class="trow" title="Clique para mostrar os lotes do produto">
+            <td class="text-center">{{product.productName}}</td>
+            <td class="text-center">{{product.packs.length}}</td>
+            <td><div class="text-center" ng-if="product.alert > 0">
+                    <span class="glyphicon glyphicon-exclamation-sign" 
+                        data-toogle="tooltip" title="{{message(product.alert)}}">
+                    </span>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <div ng-if="selectedProduct != undefined">
+        <table class="table">
+            <tr class="jumbotron trow">
+                <th class="text-center">Lote</th>
+                <th class="text-center">Quantidade</th>
+                <th class="text-center">Validade</th>
+            </tr>
+            <tr class="trow" ng-repeat="pack in selectedProduct.packs">
+                <td class="text-center">{{"Lote n°" + pack.id}}</td>
+                <td class="text-center">{{pack.itemNumber}}</td>
+                <td class="text-center">{{pack.expirationDate}}</td>
+            </tr>
+        </table>
+    </div>
+
+
+</div>

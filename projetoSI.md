@@ -1,0 +1,4 @@
+## Projeto SI
+
+# Bad smells
+- 
