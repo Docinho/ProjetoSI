@@ -258,7 +258,6 @@ public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {/
 		return false;
 	}
 
-	
 	public List<Sale> getSales() {
 		return this.sales;
 	}

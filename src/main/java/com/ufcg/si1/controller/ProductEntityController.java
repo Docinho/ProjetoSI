@@ -169,7 +169,6 @@ public class ProductEntityController {
 	@RequestMapping(value = "/product/{pid}/sales/", method = RequestMethod.PUT)
 	public ResponseEntity<ProductEntity> deleteSale(@PathVariable("pid") Long pid, @RequestBody Sale sale) {
 		ProductEntity found = prodEntService.findById(pid);
-		System.out.println(found);
 		if (found == null) {
 			return new ResponseEntity(new CustomErrorType("Product with id " + pid + " not found."),
 					HttpStatus.NOT_FOUND);
