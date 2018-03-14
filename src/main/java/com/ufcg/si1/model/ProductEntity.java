@@ -19,6 +19,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 public class ProductEntity implements Serializable, CategoryPlan, ProductPlan {//, PackPlan {
 	
+	
+	@Transient
 	private static final long serialVersionUID = 1L;
 	
 	@Id
