@@ -1,5 +1,6 @@
 package com.ufcg.si1.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,14 @@ public class ProdutoServiceImpl implements ProductService {
 		}
 		
 		return false;
+	}
+
+	@Override
+	public Product updateProduct(Long id, String newName, BigDecimal newPrice) {
+		 Product found = findById(id);
+		 found.update(newName, newPrice);
+		 saveProduct(found);
+		 return found;
 	}
 
 

@@ -22,6 +22,7 @@ import com.ufcg.si1.model.Sale;
 import com.ufcg.si1.service.CategoryService;
 import com.ufcg.si1.service.PackService;
 import com.ufcg.si1.service.ProductEntityServiceImpl;
+import com.ufcg.si1.service.ProductService;
 import com.ufcg.si1.service.SalesService;
 import com.ufcg.si1.util.CustomErrorType;
 
@@ -32,6 +33,9 @@ public class ProductEntityController {
 	
 	@Autowired
 	private ProductEntityServiceImpl prodEntService;
+	
+	@Autowired
+	private ProductService productService;
 	
 	@Autowired
 	private SalesService saleService;
@@ -86,10 +90,8 @@ public class ProductEntityController {
 	
 	@RequestMapping(value = "/product/{id}/{newName}", method = RequestMethod.PUT)
 	public ResponseEntity<?> updateProduct(@PathVariable("id") Long id, @PathVariable("newName") String newName, @RequestBody BigDecimal newPrice) {
-
-		prodEntService.update(id, newName, newPrice); // REFACTOR TO FIX COHESION
-		ProductEntity currentProduct = prodEntService.findById(id);
-		return new ResponseEntity<ProductEntity>(currentProduct, HttpStatus.OK);
+		Product currentProduct = productService.updateProduct(id, newName, newPrice);
+		return new ResponseEntity<Product>(currentProduct, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/product/{id}/pack/", method = RequestMethod.POST)

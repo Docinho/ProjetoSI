@@ -1,5 +1,6 @@
 package com.ufcg.si1.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.ufcg.si1.model.Product;
@@ -19,4 +20,6 @@ public interface ProductService {
 	int size();
 
 	boolean doesProductExists(Product product);
+
+	Product updateProduct(Long id, String newName, BigDecimal newPrice);
 }
