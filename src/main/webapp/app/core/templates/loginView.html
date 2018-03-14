@@ -44,13 +44,13 @@
 
     <table class="table table-striped">
         <tr>
-            <th ><a>Nome</a></th>
-            <th ><a>Preço</a></th>
+            <th class="text-center"><a>Nome</a></th>
+            <th class="text-center"><a>Preço</a></th>
         </tr>
     
-        <tr ng-repeat="i in products">
-            <td class="text-center">{{i.productName}}</td>
-            <td class="text-center">{{i.price}}</td>
+        <tr ng-repeat="product in products">
+            <td class="text-center">{{product.productName}}</td>
+            <td class="text-center">{{product.price}}</td>
 
 
         </tr>
