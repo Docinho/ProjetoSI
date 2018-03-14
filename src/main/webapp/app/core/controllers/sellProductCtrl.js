@@ -21,9 +21,9 @@ app.controller("SellProductCtrl", function($scope, $uibModalInstance, ProductSer
     $scope.sellProduct = (product, quantity) => {
         ProductService.sellProducts(product.id, quantity)
             .then(res => {
-                if (res.status === 201) {
+                if (res.status === 200) {
                     toastr.success(quantity + "unidade(s) de " + product.productName + " vendidos.")
-                    $uibModalInstance.close(201);
+                    $uibModalInstance.close(200);
                 }
             }).catch(err => {
                 toastr.error("Ocorreu um erro")

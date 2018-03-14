@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Implementation-Title: EstoqueFacil-Si1
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: juliobguedes
+Built-By: livia
 Implementation-Vendor-Id: com.ufcg.si1
 Build-Jdk: 1.8.0_151
 Implementation-URL: http://projects.spring.io/spring-boot/EstoqueFacil

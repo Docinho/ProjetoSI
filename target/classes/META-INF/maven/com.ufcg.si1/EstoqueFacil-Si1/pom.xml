@@ -66,6 +66,13 @@
     <artifactId>hibernate-entitymanager</artifactId>
     <version>4.3.6.Final</version>
 </dependency>
+
+		
+		<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt</artifactId>
+    <version>0.9.0</version>
+</dependency>
 		
 		
 		
